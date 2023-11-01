@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="speakpediaforfinals"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SpeakPediaforFinals"
+        tools:targetApi="31">
+
+        <!-- Define your main activity, which is typically the entry point of your app -->
+        <activity android:name="com.example.speakpediaforfinals.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+       <activity android:name=".SettingsActivity"/>
+        <activity android:name=".SplashActivity"/>
+        <activity android:name=".TranslatorActivity"/>
+
+        <!-- Other activities and components can be declared here -->
+
+    </application>
+</manifest>

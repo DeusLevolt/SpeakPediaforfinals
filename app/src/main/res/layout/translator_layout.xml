@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/translator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/back_button_translator"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/back_button"/>
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="@string/Translate"
+        android:textSize="29sp"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:layout_gravity="center"/>
+
+    <ImageView
+        android:id="@+id/language_selector"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@drawable/round_edges_green"
+        android:contentDescription="Select a language"
+        android:src="@drawable/round_edges"
+        android:clickable="true"
+        android:focusable="true"
+        />
+
+    <EditText
+        android:id="@+id/input_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_edittext_background"
+        android:layout_marginTop="4dp"/>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:background="@drawable/baseline_arrow_downward_24"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/translate_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_edittext_background"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp">
+
+
+        <Button
+            android:id="@+id/clear_button"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:padding="0dp"
+            android:backgroundTint="@color/grey"
+            android:layout_gravity="center"
+            android:text="clear"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/speak_volume"
+            android:layout_gravity="center"
+            android:layout_marginStart="40dp"/>
+
+        <Button
+            android:id="@+id/translate_button"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:padding="0dp"
+            android:backgroundTint="@color/grey"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="translate"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="40dp"/>
+    </LinearLayout>
+</LinearLayout>
