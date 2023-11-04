@@ -27,6 +27,6 @@ public class SplashActivity extends Activity {
             public void run() {
                 // Start your main activity or other screen here
             }
-        }, 5000); // Delay for 3 seconds (adjust as needed)
+        }, 3000); // Delay for 3 seconds (adjust as needed)
     }
 }

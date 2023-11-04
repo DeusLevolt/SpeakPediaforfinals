@@ -59,16 +59,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button game = findViewById(R.id.game_button);
-        Button aboutus = findViewById(R.id.about_us);
         Button translator = findViewById(R.id.translator);
         Button Settings = findViewById(R.id.setting_button);
 
 
+        translator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent translator = new Intent(MainActivity.this, TranslatorActivity.class);
+                startActivity(translator);
+            }
+        });
+
         Settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
+                Intent settings = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settings);
             }
         });
 
@@ -78,8 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the background color based on the selected color
         updateBackgroundColor(selectedColor);
-
-        setContentView(R.layout.activity_main);
 
         // Other initialization code
     }

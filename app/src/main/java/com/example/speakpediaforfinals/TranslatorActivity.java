@@ -1,20 +1,30 @@
 package com.example.speakpediaforfinals;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.translation.TranslationRequest;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 public class TranslatorActivity extends AppCompatActivity {
     private EditText inputEditText;
     private TextView translationTextView;
-    private ImageView languageSelector;
-    private PopupWindow languagePopup;
+    public ImageView languageSelector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +33,18 @@ public class TranslatorActivity extends AppCompatActivity {
 
         inputEditText = findViewById(R.id.input_edit_text);
         translationTextView = findViewById(R.id.translate_textView);
+        Button back = findViewById(R.id.back_button_translator);
         Button translateButton = findViewById(R.id.translate_button);
         Button clearButton = findViewById(R.id.clear_button);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent back_to_main = new Intent(TranslatorActivity.this, MainActivity.class);
+                startActivity(back_to_main);
+
+            }
+        });
 
         translateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +71,7 @@ public class TranslatorActivity extends AppCompatActivity {
     public void showLanguageSelectorPopup(View v){
         View popupView = getLayoutInflater().inflate(R.layout.translator_layout,null);
 
-        languagePopup = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,true);
+        PopupWindow languagePopup = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
         languagePopup.showAsDropDown(v, 0, 0);
     }
@@ -72,13 +92,8 @@ public class TranslatorActivity extends AppCompatActivity {
     }
 
     private String performTranslation(String inputText) {
-        // Implement your translation logic here, such as using an API.
-        // Return the translated text.
-        // You can use services like Google Translate API or others for translation.
-        // This example assumes a simple direct translation, but you may need to integrate an actual translation service.
-        return "Translated: " + inputText;
+
+        return "Translation failed.";
     }
-
-
 }
 

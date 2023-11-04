@@ -29,6 +29,18 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    packagingOptions {
+        pickFirst 'META-INF/DEPENDENCIES'
+    }
+}
+ext {
+    libs = [
+            jacksonAnnotations: 'com.fasterxml.jackson.core:jackson-annotations:2.12.5',
+            jacksonDatabind: 'com.fasterxml.jackson.core:jackson-databind:2.12.5',
+            lombok: 'org.projectlombok:lombok:1.18.22',
+            junitBom: 'org.junit:junit-bom:5.8.1'
+    ]
 }
 
 dependencies {
@@ -44,4 +56,13 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+    api libs.jacksonAnnotations
+    api libs.jacksonDatabind
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+
+    testImplementation libs.jacksonDatabind
+    testImplementation(platform(libs.junitBom))
+    testImplementation('org.junit.jupiter:junit-jupiter')
 }

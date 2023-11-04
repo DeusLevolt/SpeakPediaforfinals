@@ -42,7 +42,7 @@
     <string name="del">DEL</string>
     <string name="speak">speak</string>
     <string name="good_job">good job</string>
-    <string name="Translate">Translate</string>
+    <string name="Translate">Translator</string>
     <string name="settings">Settings</string>
     <string-array name="language_options">
         <item>English</item>
@@ -50,9 +50,6 @@
         <item>French</item>
         <!-- Add more language options as needed -->
     </string-array>
-    <string name="language_english">english</string>
-    <string name="language_japanese">japanese</string>
-    <string name="language_french">french</string>
     <string name="new_splashscreen_msg">a Friendly guide to your everyday convo and tour</string>
     <string name="choose_a_color">Choose a Color:</string>
 

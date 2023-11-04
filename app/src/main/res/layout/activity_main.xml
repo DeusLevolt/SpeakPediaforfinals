@@ -5,14 +5,33 @@
     android:id="@+id/main_act_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="start"
-    android:orientation="vertical"
-    android:background="#80808080"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="150dp"
+        android:src="@drawable/rounded_bottom_left_right_corners">
+    </ImageView>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/icon_speakpedia_finals"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/rounded_top_and_left_corners"/>
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="500dp"
+        android:padding="10dp"
+        android:background="@drawable/white_bg"
+        android:layout_centerInParent="true"
         android:orientation="vertical">
 
 
@@ -36,19 +55,6 @@
             android:layout_marginTop="25dp"
             android:text="@string/settings"
             android:textAppearance="@style/settings"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
-        <Button
-            android:id="@+id/about_us"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:backgroundTint="@color/lightblue"
-            android:text="@string/about_us"
-            android:textAppearance="@style/about_us"
-            android:contentDescription="@string/about_us"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:layout_marginStart="20dp"
