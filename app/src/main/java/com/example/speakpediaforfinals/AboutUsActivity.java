@@ -9,51 +9,37 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-public class SettingsActivity extends Activity {
+import androidx.annotation.Nullable;
 
-    private TextView Theme;
-    private TextView AboutUs;
-    private int[] ids = {R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10,R.id.themebluebutton,R.id.aboutusbluebutton};
 
+
+public class AboutUsActivity extends Activity {
+
+    private int[] ids = {R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10};
+    private int[] headerFonts = {R.id.heading1,R.id.heading2,R.id.heading3,R.id.heading4,R.id.heading5,R.id.heading6,R.id.heading7,R.id.heading8,R.id.heading9,R.id.heading10,R.id.heading11,R.id.heading12};
+    private static final String FONT_PATH_A = "fonts/baloo.ttf";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_layout);
+        setContentView(R.layout.about_us_layout);
 
-         Theme = findViewById(R.id.theme);
-         AboutUs = findViewById(R.id.about);
-        ImageView back = findViewById(R.id.back_button_settings);
-        ImageView top = findViewById(R.id.shared_background_7);
-        ImageView bot = findViewById(R.id.shared_background_8);
+
+        ImageView back = findViewById(R.id.back_button_aboutus);
+        ImageView top = findViewById(R.id.shared_background_3);
+        ImageView bot = findViewById(R.id.shared_background_4);
         loadSavedColor();
+
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent back_to_main = new Intent(SettingsActivity.this, MainActivity.class);
-                startActivity(back_to_main);
-                overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);
+                Intent back_to_settings = new Intent(AboutUsActivity.this, SettingsActivity.class);
+                startActivity(back_to_settings);
             }
         });
-
-         Theme.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 Intent theme = new Intent(SettingsActivity.this, ThemeActivity.class);
-                 startActivity(theme);
-             }
-         });
-
-         AboutUs.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 Intent AboutUs = new Intent(SettingsActivity.this, AboutUsActivity.class );
-                 startActivity(AboutUs);
-             }
-         });
     }
 
     private void applyColorToImageView() {
@@ -86,11 +72,5 @@ public class SettingsActivity extends Activity {
         ThemeColorManager.getInstance().setSelectedColor(savedColor);
         applyColorToImageView();// Apply the saved color on activity creation
     }
-    private void saveSelectedColor () {
-        int selectedColor = ThemeColorManager.getInstance().getSelectedColor();
-        SharedPreferences preferences = getSharedPreferences("theme_preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("selected_color", selectedColor);
-        editor.apply();
-    }
+
 }

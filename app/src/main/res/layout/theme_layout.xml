@@ -6,9 +6,9 @@
 
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:src="@drawable/rounded_bottom_left_right_corners"/>
+        android:id="@+id/shared_background_9"
+        style="@style/SharedImageViewStyle"
+        android:layout_width="match_parent"/>
 
     <ImageView
         android:id="@+id/back_button_theme"
@@ -18,13 +18,13 @@
         android:src="@drawable/left_arrow"/>
 
     <TextView
+        android:id="@+id/heading11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginStart="70dp"
         android:text="Theme"
-        android:textSize="40sp"
-        android:fontFamily="@font/baloo"/>
+        style="@style/FontsForAllHeading"/>
 
     <ImageView
         android:layout_width="60dp"
@@ -34,83 +34,89 @@
         android:src="@drawable/menu"/>
 
     <ImageView
+        android:id="@+id/shared_background_10"
+        style="@style/SharedImageViewStyle_1"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/rounded_top_and_left_corners"/>
+        android:layout_alignParentBottom="true"/>
 
     <RelativeLayout
         android:layout_width="320dp"
         android:layout_height="500dp"
         android:layout_centerInParent="true"
-        android:padding="0dp"
-        android:background="@drawable/white_bg">
+        android:background="@drawable/white_bg"
+        android:padding="0dp">
 
         <ImageView
+            android:id="@+id/bgbluebutton"
             android:layout_width="300dp"
             android:layout_height="100dp"
-            android:layout_marginTop="80dp"
             android:layout_marginStart="10dp"
-            android:src="@drawable/about_us_rounded_edges"/>
+            android:layout_marginTop="80dp"
+            style="@style/SharedImageViewStyle"/>
 
         <ImageView
             android:layout_width="280dp"
             android:layout_height="80dp"
-            android:layout_marginTop="90dp"
             android:layout_marginStart="20dp"
-            android:src="@drawable/white_bg"/>
+            android:layout_marginTop="90dp"
+            android:src="@drawable/white_bg" />
 
         <ImageView
+            android:id="@+id/bg_arrow"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginTop="102dp"
             android:layout_marginStart="225dp"
-            android:src="@drawable/up_arrow"/>
+            android:layout_marginTop="102dp"
+            android:src="@drawable/up_arrow" />
 
         <TextView
             android:id="@+id/background"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="105dp"
             android:layout_marginStart="40dp"
-            android:text="Background"
-            android:textSize="32sp"
+            android:layout_marginTop="105dp"
             android:clickable="true"
+            android:focusable="true"
             android:fontFamily="@font/baloo"
-            android:focusable="true" />
+            android:text="Background"
+            android:textColor="@color/black"
+            android:textSize="32sp" />
 
         <ImageView
+            android:id="@+id/fontsbluebutton"
             android:layout_width="300dp"
             android:layout_height="100dp"
-            android:layout_marginTop="300dp"
             android:layout_marginStart="10dp"
-            android:src="@drawable/about_us_rounded_edges"/>
+            android:layout_marginTop="300dp"
+            style="@style/SharedImageViewStyle"/>
 
         <ImageView
             android:layout_width="280dp"
             android:layout_height="80dp"
-            android:layout_marginTop="310dp"
             android:layout_marginStart="20dp"
-            android:src="@drawable/white_bg"/>
+            android:layout_marginTop="310dp"
+            android:src="@drawable/white_bg" />
 
         <ImageView
+            android:id="@+id/fonts_arrow"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginTop="330dp"
             android:layout_marginStart="220dp"
-            android:src="@drawable/down_arrow"/>
+            android:layout_marginTop="330dp"
+            android:src="@drawable/down_arrow" />
 
         <TextView
             android:id="@+id/fonts"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="320dp"
             android:layout_marginStart="40dp"
-            android:text="Fonts"
-            android:textSize="40sp"
+            android:layout_marginTop="320dp"
             android:clickable="true"
+            android:focusable="true"
             android:fontFamily="@font/baloo"
-            android:focusable="true" />
+            android:text="Fonts"
+            android:textColor="@color/black"
+            android:textSize="40sp" />
 
     </RelativeLayout>
 

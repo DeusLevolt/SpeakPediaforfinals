@@ -9,9 +9,9 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:src="@drawable/rounded_bottom_left_right_corners">
+        android:id="@+id/shared_background_1"
+        style="@style/SharedImageViewStyle"
+        android:layout_width="match_parent">
     </ImageView>
 
     <ImageView
@@ -21,59 +21,119 @@
         android:src="@drawable/icon_speakpedia_finals"/>
 
     <ImageView
+        android:id="@+id/shared_background_2"
+        style="@style/SharedImageViewStyle_1"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/rounded_top_and_left_corners"/>
+        android:layout_alignParentBottom="true"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="320dp"
         android:layout_height="500dp"
-        android:padding="10dp"
-        android:background="@drawable/white_bg"
         android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:background="@drawable/white_bg"
+        android:padding="10dp">
 
 
-        <Button
-            android:id="@+id/game_button"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/button1"
+            style="@style/SharedImageViewStyle"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="80dp" />
+
+        <ImageView
+            android:layout_width="280dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="90dp"
+            android:src="@drawable/white_bg" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="225dp"
+            android:layout_marginTop="102dp"
+            android:src="@drawable/icon_language" />
+
+        <TextView
+            android:id="@+id/heading2"
+            style="@style/FontsForAllHeading"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/magenta"
-            android:text="@string/game"
-            android:textAppearance="@style/game"
-            android:contentDescription="@string/game"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
-        <Button
-            android:id="@+id/setting_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="@string/settings"
-            android:textAppearance="@style/settings"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="100dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="Translator" />
 
-        <Button
-            android:id="@+id/translator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:backgroundTint="@color/Yellow"
-            android:text="@string/Translate"
-            android:textAppearance="@style/translate"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
+        <ImageView
+            android:id="@+id/button2"
+            style="@style/SharedImageViewStyle"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="200dp" />
 
-    </LinearLayout>
+        <ImageView
+            android:layout_width="280dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="210dp"
+            android:src="@drawable/white_bg" />
+
+        <TextView
+            android:id="@+id/heading3"
+            style="@style/FontsForAllHeading"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="220dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="Game" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="220dp"
+            android:src="@drawable/console" />
+
+        <ImageView
+            android:id="@+id/button3"
+            style="@style/SharedImageViewStyle"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="320dp" />
+
+        <ImageView
+            android:layout_width="280dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="330dp"
+            android:src="@drawable/white_bg" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="340dp"
+            android:src="@drawable/icon_settings" />
+
+        <TextView
+            android:id="@+id/heading4"
+            style="@style/FontsForAllHeading"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="340dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="Settings" />
+
+    </RelativeLayout>
 
 
 

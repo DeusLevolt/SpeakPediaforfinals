@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/font_a"
+        android:title="Baloo" />
+    <item
+        android:id="@+id/font_b"
+        android:title="Free seriff" />
+
+    <item
+        android:id="@+id/font_c"
+        android:title="ztchablis"/>
+    <!-- Add more items for other fonts -->
+</menu>

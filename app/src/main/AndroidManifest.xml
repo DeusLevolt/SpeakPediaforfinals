@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
         android:allowBackup="true"
@@ -25,6 +28,11 @@
        <activity android:name=".SettingsActivity"/>
         <activity android:name=".SplashActivity"/>
         <activity android:name=".TranslatorActivity"/>
+        <activity android:name=".ThemeActivity"/>
+        <activity android:name=".AboutUsActivity"/>
+        <activity android:name=".GameActivity"/>
+        <activity android:name=".MainGameActivity"/>
+        <activity android:name=".Text_to_speech"/>
 
         <!-- Other activities and components can be declared here -->
 

@@ -8,54 +8,50 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
 
-    private Bundle savedInstanceState;
-    private int[] ids = {R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10,R.id.button1,R.id.button2,R.id.button3};
+    private int[] ids = {R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10, R.id.blue1, R.id.blue2};
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.games_layout);
 
-        RelativeLayout mainLayout = findViewById(R.id.main_act_layout);
 
-        TextView game = findViewById(R.id.heading3);
-        TextView translator = findViewById(R.id.heading2);
-        TextView Settings = findViewById(R.id.heading4);
+        TextView Jumbled = findViewById(R.id.jumbled_word);
+        TextView Tts = findViewById(R.id.game_2);
+        ImageView back = findViewById(R.id.back_button_game);
+        ImageView top = findViewById(R.id.shared_background_5);
+        ImageView bot = findViewById(R.id.shared_background_6);
         loadSavedColor();
 
-
-        translator.setOnClickListener(new View.OnClickListener() {
+        Tts.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent translator = new Intent(MainActivity.this, TranslatorActivity.class);
-                startActivity(translator);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            public void onClick(View view) {
+                Intent tts = new Intent(GameActivity.this, Text_to_speech.class);
+                startActivity(tts);
             }
         });
 
-        Settings.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent settings = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(settings);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                Intent back_to_main = new Intent(GameActivity.this, MainActivity.class);
+                startActivity(back_to_main);
             }
         });
 
-        game.setOnClickListener(new View.OnClickListener() {
+        Jumbled.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent game = new Intent(MainActivity.this, GameActivity.class);
-                startActivity(game);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                Intent jumbled_words = new Intent(GameActivity.this, MainGameActivity.class);
+                startActivity(jumbled_words);
             }
         });
     }
@@ -90,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
         ThemeColorManager.getInstance().setSelectedColor(savedColor);
         applyColorToImageView();// Apply the saved color on activity creation
     }
+
+
     private void saveSelectedColor () {
         int selectedColor = ThemeColorManager.getInstance().getSelectedColor();
         SharedPreferences preferences = getSharedPreferences("theme_preferences", MODE_PRIVATE);
