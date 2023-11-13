@@ -91,7 +91,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
             android:layout_marginTop="100dp"
-            android:background="@drawable/rounded_white_edges"
+            android:background="@drawable/white_bg"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="35sp" />
@@ -110,10 +110,10 @@
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
             android:layout_marginTop="350dp"
-            android:textColor="@color/black"
-            android:textSize="29sp"
+            android:background="@drawable/white_bg"
             android:textAlignment="center"
-            android:background="@drawable/rounded_white_edges"/>
+            android:textColor="@color/black"
+            android:textSize="29sp" />
 
             <Button
                 android:id="@+id/clear_button"
