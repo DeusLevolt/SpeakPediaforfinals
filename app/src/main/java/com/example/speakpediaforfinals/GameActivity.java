@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class GameActivity extends AppCompatActivity {
 
-    private int[] ids = {R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10, R.id.blue1, R.id.blue2};
+    private int[] ids = {R.id.blue_quiz ,R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10, R.id.blue1, R.id.blue2};
 
 
     @Override
@@ -29,8 +29,17 @@ public class GameActivity extends AppCompatActivity {
         ImageView back = findViewById(R.id.back_button_game);
         ImageView top = findViewById(R.id.shared_background_5);
         ImageView bot = findViewById(R.id.shared_background_6);
+        TextView quiz_game = findViewById(R.id.quiz_game);
         loadSavedColor();
 
+
+        quiz_game.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent game_two = new Intent(GameActivity.this, GameTwoActivity.class);
+                startActivity(game_two);
+            }
+        });
         Tts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

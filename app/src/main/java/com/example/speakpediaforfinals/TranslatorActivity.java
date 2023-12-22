@@ -2,22 +2,36 @@ package com.example.speakpediaforfinals;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -25,155 +39,254 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TranslatorActivity extends AppCompatActivity {
     private EditText inputEditText;
     private TextView translationTextView;
-    public ImageView languageSelector;
-    private int[] relative_layout = {R.id.translatorbluebg};
 
     private OpenAiTranslationService translationService;
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private Handler uiHandler = new Handler(Looper.getMainLooper());
+    private String selectedLanguage;
+    private String selectedDialect;
+
+    private Spinner languageSpinner;
+    private Spinner dialectSpinner;
+    private int[] ids = {R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10,R.id.button1,R.id.button2,R.id.button3,R.id.translatorbluebg};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.translator_layout);
 
+        languageSpinner = findViewById(R.id.language1_spinner);
+        dialectSpinner = findViewById(R.id.language2_spinner);
 
+        initializeViews();
+        setupRetrofit();
+        setupListeners();
+        setupLanguageSpinner();
+        setupDialectSpinner();
+        loadSavedColor();
+        saveSelectedColor();
 
+        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedLanguage = (String) parentView.getItemAtPosition(position);
+                updateLanguageTextView(selectedLanguage);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing here for now
+            }
+        });
+
+        dialectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemVIew, int position, long id) {
+                String selectedLanguage2 = (String) parentView.getItemAtPosition(position);
+                updateLanguage2TextView(selectedLanguage2);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+        });
+    }
+    private void updateLanguage2TextView(String selectedLanguage2) {
+        TextView language2TextView = findViewById(R.id.dialect);
+        language2TextView.setText(selectedLanguage2);
+    }
+
+    private void updateLanguageTextView(String selectedLanguage) {
+        TextView languageTextView = findViewById(R.id.language);
+        languageTextView.setText(selectedLanguage);
+    }
+
+    private void setupLanguageSpinner() {
+        // Define your language choices
+        String[] languages = {"English", "Tagalog"};
+
+        // Create an ArrayAdapter using a simple spinner layout and your choices
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, languages);
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        languageSpinner.setAdapter(adapter);
+    }
+
+    private void setupDialectSpinner() {
+        // Define your dialect choices
+        String[] dialects = {"Hiligaynon", "Cebuano", "Ilokano"};
+
+        // Create an ArrayAdapter using a simple spinner layout and your choices
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dialects);
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        dialectSpinner.setAdapter(adapter);
+    }
+
+    private void initializeViews() {
         inputEditText = findViewById(R.id.input_edit_text);
         translationTextView = findViewById(R.id.translate_textView);
-        ImageView back = findViewById(R.id.back_button_translator);
-        Button translateButton = findViewById(R.id.translate_button);
-        Button clearButton = findViewById(R.id.clear_button);
-        ImageView lang_select = findViewById(R.id.language_selector);
-        ImageView dia_select = findViewById(R.id.dialect_selector);
-        loadSavedColor();
-        setupRetrofit();
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent back_to_main = new Intent(TranslatorActivity.this, MainActivity.class);
-                startActivity(back_to_main);
-                overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);
-
-            }
-        });
-
-        translateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                translateText();
-            }
-
-            private void translateText() {
-                String inputText = inputEditText.getText().toString().trim();
-                if (!inputText.isEmpty()) {
-                    new TranslationTask().execute();
-                }
-            }
-
-        });
-
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clearTranslation();
-            }
-
-            private void clearTranslation() {
-                inputEditText.setText("");
-                translationTextView.setText("");
-            }
-        });
-
+        // Initialize other views if necessary
     }
-    private void setupRetrofit(){
+
+    private void setupRetrofit() {
+        // Create a logging interceptor
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        // Build an OkHttpClient and add the logging interceptor
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(logging);
+
+        // Build Retrofit with the OkHttpClient
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.openai.com/")
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
                 .build();
 
         translationService = retrofit.create(OpenAiTranslationService.class);
     }
 
-    private void loadSavedColor () {
-        SharedPreferences preferences = getSharedPreferences("theme_preferences", MODE_PRIVATE);
-        int savedColor = preferences.getInt("selected_color", -1);
-        ThemeColorManager.getInstance().setSelectedColor(savedColor);
-        // Apply the saved color on activity creation
-        applyColorToRelativeLayout();
+
+
+    private void setupListeners() {
+        findViewById(R.id.back_button_translator).setOnClickListener(view -> {
+            startActivity(new Intent(TranslatorActivity.this, MainActivity.class));
+            overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);
+        });
+
+        findViewById(R.id.translate_button).setOnClickListener(v -> translateText());
+
+        findViewById(R.id.clear_button).setOnClickListener(v -> clearTranslation());
     }
 
-    private void applyColorToRelativeLayout() {
-        for (int id : relative_layout){
-            RelativeLayout bg = findViewById(id);
-            if (bg != null){
-                int selectedColor = ThemeColorManager.getInstance().getSelectedColor();
-                if (selectedColor != -1){
-                    bg.setBackgroundColor(selectedColor);
-                }
-            }
+    private void translateText() {
+        String inputText = inputEditText.getText().toString().trim();
+        if (!inputText.isEmpty()) {
+            selectedLanguage = (String) languageSpinner.getSelectedItem();
+            selectedDialect = (String) dialectSpinner.getSelectedItem();
+            translateInBackground(inputText);
         }
     }
 
-    private class TranslationTask extends AsyncTask<Void, Void, String> {
-        private static final int MAX_RETRIES = 3;
-        private static final int RETRY_DELAY_MS = 1000;
 
-        @Override
-        protected String doInBackground(Void... params) {
-            String apiKey = "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";
-            String model = "text-davinci-003";
-            String inputText = inputEditText.getText().toString().trim();
-
-            // Update the prompt to translate from Tagalog to English
-            String prompt = "Translate the following Tagalog text to English: '" + inputText + "'";
-            String jsonInput = "{\"prompt\": \"" + prompt + "\", \"max_tokens\": 100, \"temperature\": 0.7}";
+    private void translateInBackground(String inputText) {
+        CompletableFuture.supplyAsync(() -> {
+            String apiKey = "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"; // Replace with your actual API key
+            String prompt = "Translate the following " + selectedLanguage + " text to " + selectedDialect + ": '" + inputText + "'";
+            String jsonInput = "{\"prompt\": \"" + prompt + "\", \"max_tokens\": 50, \"temperature\": 0.7}";
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
             int retryCount = 0;
-
-            while (retryCount < MAX_RETRIES) {
+            while (retryCount < 3) {
                 try {
-                    Call<ResponseBody> call = translationService.translateText("Bearer " + apiKey, RequestBody.create(jsonInput.getBytes()));
+                    Call<ResponseBody> call = translationService.translateText("Bearer " + apiKey, RequestBody.create(jsonInput, JSON));
                     retrofit2.Response<ResponseBody> response = call.execute();
 
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful() && response.body() != null) {
                         String result = response.body().string();
                         JSONObject jsonResponse = new JSONObject(result);
                         return jsonResponse.getString("choices");
                     } else if (response.code() == 429) {
-                        // Rate limit exceeded, wait for some time and retry
                         retryCount++;
-                        try {
-                            Thread.sleep(RETRY_DELAY_MS); // Adjust the sleep duration as needed
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        Thread.sleep(1000);
                     } else {
-                        // Handle other response codes
-                        Log.i("TranslationTask", "Unexpected Response Code: " + response.code());
-                        break;
+                        Log.e("TranslationTask", "Unexpected Response Code: " + response.code());
+                        return "Error: Unexpected response code " + response.code();
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    break;
+                    Log.e("TranslatorActivity", "Error in translation task", e);
+                    return "Error: " + e.getMessage();
                 }
             }
-
+            return "Error: Failed after retries";
+        }, executorService).thenAcceptAsync(result -> {
+            // Update UI on the main thread
+            uiHandler.post(() -> updateUI(result));
+        }, executorService).exceptionally(e -> {
+            // Handle exceptions here
+            Log.e("TranslatorActivity", "Error in translation task", e);
+            uiHandler.post(() -> updateUI("Error: " + e.getMessage()));
             return null;
-        }
+        });
+    }
 
-        @Override
-        protected void onPostExecute(String result) {
-            Log.i("TranslationTask", "Response result: " + result);
-            runOnUiThread(() -> {
-                if (result != null) {
-                    translationTextView.setText(result);
+    private void updateUI(String result) {
+        if (result != null && !result.startsWith("Error")) {
+            try {
+                // Parse the JSON response
+                JSONArray choicesArray = new JSONArray(result);
+                if (choicesArray.length() > 0) {
+                    JSONObject choiceObject = choicesArray.getJSONObject(0);
+                    String translatedText = choiceObject.optString("text", "Error: Text not found in response");
+                    translationTextView.setText(translatedText.trim());
                 } else {
-                    translationTextView.setText("Error in translation");
+                    translationTextView.setText("Error: No choices in response");
                 }
-            });
+            } catch (JSONException e) {
+                Log.e("TranslatorActivity", "Error parsing JSON response", e);
+                translationTextView.setText("Error: " + e.getMessage());
+            }
+        } else {
+            translationTextView.setText(result != null ? result : "Error in translation");
         }
     }
 
+
+    private void clearTranslation() {
+        inputEditText.setText("");
+        translationTextView.setText("");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executorService.shutdown(); // Shut down the executor service
+    }
+
+    private void applyColorToImageView() {
+        for (int id : ids) {
+            RelativeLayout imageView = findViewById(id);
+            if (imageView != null) {
+                int selectedColor = ThemeColorManager.getInstance().getSelectedColor();
+                if (selectedColor != -1) {
+                    // Get the existing background drawable
+                    Drawable backgroundDrawable = imageView.getBackground();
+
+                    // Create a new shape drawable with the selected color
+                    GradientDrawable shapeDrawable = new GradientDrawable();
+                    shapeDrawable.setShape(GradientDrawable.RECTANGLE);
+                    shapeDrawable.setCornerRadius(getResources().getDimensionPixelSize(R.dimen.corner_radius)); // Set your corner radius
+                    shapeDrawable.setColor(selectedColor);
+
+                    // Create a LayerDrawable with the existing background and the new shape
+                    LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{backgroundDrawable, shapeDrawable});
+
+                    // Set the LayerDrawable as the background of the ImageView
+                    imageView.setBackground(layerDrawable);
+                }
+            }
+        }
+    }
+    private void loadSavedColor () {
+        SharedPreferences preferences = getSharedPreferences("theme_preferences", MODE_PRIVATE);
+        int savedColor = preferences.getInt("selected_color", -1);
+        ThemeColorManager.getInstance().setSelectedColor(savedColor);
+        applyColorToImageView();// Apply the saved color on activity creation
+    }
+    private void saveSelectedColor () {
+        int selectedColor = ThemeColorManager.getInstance().getSelectedColor();
+        SharedPreferences preferences = getSharedPreferences("theme_preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("selected_color", selectedColor);
+        editor.apply();
+    }
 }
-
-

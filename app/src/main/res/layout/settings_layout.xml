@@ -80,6 +80,7 @@
             android:text="Theme"
             style="@style/FontsForAllHeading"/>
 
+
         <ImageView
             android:id="@+id/aboutusbluebutton"
             android:layout_width="300dp"

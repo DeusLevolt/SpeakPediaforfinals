@@ -54,14 +54,15 @@
             style="@style/FontsForAllHeading"
             android:textAlignment="center"/>
 
-        <ImageView
-            android:id="@+id/language_selector"
+        <Spinner
+            android:id="@+id/language1_spinner"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/down_arrow"
             android:layout_marginTop="70dp"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@id/language"/>
+            android:layout_toEndOf="@id/language"
+            android:background="@drawable/down_arrow"/>
+
 
         <TextView
             android:id="@+id/dialect"
@@ -70,19 +71,19 @@
             android:layout_marginTop="300dp"
             android:layout_marginStart="20dp"
             android:padding="0dp"
-            android:text="Dialect"
+            android:text="Language"
             android:textStyle="bold"
             style="@style/FontsForAllHeading"
             android:textAlignment="center"/>
 
-        <ImageView
-            android:id="@+id/dialect_selector"
+        <Spinner
+            android:id="@+id/language2_spinner"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/down_arrow"
-            android:layout_marginTop="320dp"
+            android:layout_marginTop="315dp"
+            android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/dialect"
-            android:layout_marginStart="10dp"/>
+            android:background="@drawable/down_arrow"/>
 
         <EditText
             android:id="@+id/input_edit_text"
@@ -107,10 +108,11 @@
             android:id="@+id/translate_textView"
             android:layout_width="300dp"
             android:layout_height="150dp"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/dialect"
             android:layout_centerInParent="true"
-            android:layout_marginTop="350dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/white_bg"
+            android:gravity="center"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="29sp" />
@@ -130,12 +132,6 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginTop="520dp"
-                android:background="@drawable/speak_volume"
-                android:layout_marginStart="147dp"/>
 
             <Button
                 android:id="@+id/translate_button"

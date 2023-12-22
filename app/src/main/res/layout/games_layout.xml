@@ -83,6 +83,41 @@
             android:textSize="31sp" />
 
         <ImageView
+            android:id="@+id/blue_quiz"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="190dp"
+            style="@style/SharedImageViewStyle"/>
+
+        <ImageView
+            android:layout_width="280dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="200dp"
+            android:src="@drawable/white_bg" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="230dp"
+            android:layout_marginTop="210dp"
+            android:src="@drawable/ideas" />
+
+        <TextView
+            android:id="@+id/quiz_game"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="220dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/baloo"
+            android:text="Speak Quiz"
+            android:textColor="@color/black"
+            android:textSize="31sp" />
+
+        <ImageView
             android:id="@+id/blue2"
             android:layout_width="300dp"
             android:layout_height="100dp"

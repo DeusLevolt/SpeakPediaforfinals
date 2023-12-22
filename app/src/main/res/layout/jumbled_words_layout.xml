@@ -46,10 +46,28 @@
 
     <RelativeLayout
         android:id="@+id/jumbledwordsblue"
+        style="@style/SharedImageViewStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        style="@style/SharedImageViewStyle"
         android:layout_marginTop="75dp">
+
+        <TextView
+            android:id="@+id/scoreTextView"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/white_bg"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
+
+        <ImageView
+            android:id="@+id/leaderboard"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="260dp"
+            android:src="@drawable/leaderboard" />
 
         <TextView
             android:id="@+id/hintTextView"
@@ -57,14 +75,14 @@
             android:layout_height="130dp"
             android:layout_marginStart="17dp"
             android:layout_marginTop="50dp"
-            android:scrollbars="vertical"
-            android:maxLines="4"
+            android:background="@color/white"
             android:ellipsize="end"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="20sp"
+            android:maxLines="4"
+            android:scrollbars="vertical"
             android:textAlignment="center"
-            android:background="@color/white"/>
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
 
         <TextView
@@ -84,13 +102,13 @@
             android:id="@+id/submitButton"
             android:layout_width="100dp"
             android:layout_height="60dp"
-            android:padding="0dp"
             android:layout_below="@id/jumbledWordTextView"
-            android:backgroundTint="@color/Brown"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
+            android:backgroundTint="@color/Brown"
+            android:padding="0dp"
             android:text="Enter"
-            android:textSize="29sp"/>
+            android:textSize="29sp" />
 
         <ImageButton
             android:id="@+id/imageButtondel"
@@ -99,7 +117,7 @@
             android:layout_marginStart="235dp"
             android:layout_marginTop="310dp"
             android:background="@drawable/game_delete_button"
-            android:contentDescription="@string/del"/>
+            android:contentDescription="@string/del" />
 
         <ImageButton
             android:id="@+id/shuffle_button"
@@ -107,63 +125,67 @@
             android:layout_height="50dp"
             android:layout_marginStart="50dp"
             android:layout_marginTop="310dp"
-            android:background="@drawable/shuffle_button"/>
+            android:background="@drawable/shuffle_button" />
 
         <LinearLayout
             android:id="@+id/buttonContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_gravity="center"
             android:layout_below="@id/submitButton"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/button1"
                 android:layout_width="55dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="20dp"
+                android:backgroundTint="@color/Brown"
                 android:padding="0dp"
                 android:textColor="@color/black"
-                android:backgroundTint="@color/Brown"
                 android:textSize="24sp" />
+
             <Button
                 android:id="@+id/button2"
                 android:layout_width="55dp"
                 android:layout_height="50dp"
-                android:textColor="@color/black"
                 android:layout_marginStart="5dp"
-                android:padding="0dp"
                 android:backgroundTint="@color/Brown"
+                android:padding="0dp"
+                android:textColor="@color/black"
                 android:textSize="24sp" />
+
             <Button
                 android:id="@+id/button3"
                 android:layout_width="55dp"
                 android:layout_height="50dp"
-                android:textColor="@color/black"
                 android:layout_marginStart="5dp"
-                android:padding="0dp"
                 android:backgroundTint="@color/Brown"
+                android:padding="0dp"
+                android:textColor="@color/black"
                 android:textSize="24sp" />
+
             <Button
                 android:id="@+id/button4"
                 android:layout_width="55dp"
                 android:layout_height="50dp"
-                android:textColor="@color/black"
                 android:layout_marginStart="5dp"
-                android:padding="0dp"
                 android:backgroundTint="@color/Brown"
+                android:padding="0dp"
+                android:textColor="@color/black"
                 android:textSize="24sp" />
+
             <Button
                 android:id="@+id/button5"
                 android:layout_width="55dp"
                 android:layout_height="50dp"
-                android:textColor="@color/black"
                 android:layout_marginStart="5dp"
-                android:padding="0dp"
                 android:backgroundTint="@color/Brown"
+                android:padding="0dp"
+                android:textColor="@color/black"
                 android:textSize="24sp" />
         </LinearLayout>
-
 
 
     </RelativeLayout>
