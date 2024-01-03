@@ -2,6 +2,6 @@
 <resources>
     <!-- Other dimensions -->
     <dimen name="button_fixed_width">55dp</dimen><!-- Set your desired width in dp -->
-    <dimen name="corner_radius">40dp</dimen>
+    <dimen name="corner_radius">20dp</dimen>
     <dimen name="font_size">40sp</dimen>
 </resources>

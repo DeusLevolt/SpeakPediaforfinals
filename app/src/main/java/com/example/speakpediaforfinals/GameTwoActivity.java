@@ -14,7 +14,6 @@ import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,7 +30,7 @@ public class GameTwoActivity extends AppCompatActivity {
 
     private SpeechRecognizer speechRecognizer;
     private TextView hintTextView;
-    private EditText gameTwoTextView;
+    private TextView gameTwoTextView;
     private ImageButton speakButton;
     private ArrayList<String> questions;
     private int currentQuestionIndex;
@@ -252,7 +251,7 @@ public class GameTwoActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     // Clear the EditText for the new question
-                    gameTwoTextView.getText().clear();
+                    gameTwoTextView.setText("");
                 }
             }, 1500); // Adjust the delay time as needed (1000 milliseconds = 1 second)
 

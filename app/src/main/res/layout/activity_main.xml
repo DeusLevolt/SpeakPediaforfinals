@@ -15,8 +15,8 @@
     </ImageView>
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginStart="20dp"
         android:src="@drawable/icon_speakpedia_finals"/>
 
@@ -38,20 +38,20 @@
             style="@style/SharedImageViewStyle"
             android:layout_width="300dp"
             android:layout_height="120dp"
-            android:layout_marginStart="55dp"
+            android:layout_marginStart="29dp"
             android:layout_marginTop="150dp" />
 
         <ImageView
             android:layout_width="280dp"
             android:layout_height="100dp"
-            android:layout_marginStart="65dp"
+            android:layout_marginStart="39dp"
             android:layout_marginTop="160dp"
             android:src="@drawable/white_bg" />
 
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginStart="265dp"
+            android:layout_marginStart="250dp"
             android:layout_marginTop="180dp"
             android:src="@drawable/icon_language" />
 
@@ -60,7 +60,7 @@
             style="@style/FontsForAllHeading"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="180dp"
             android:clickable="true"
             android:focusable="true"
@@ -71,13 +71,13 @@
             style="@style/SharedImageViewStyle"
             android:layout_width="300dp"
             android:layout_height="120dp"
-            android:layout_marginStart="55dp"
+            android:layout_marginStart="29dp"
             android:layout_marginTop="300dp" />
 
         <ImageView
             android:layout_width="280dp"
             android:layout_height="100dp"
-            android:layout_marginStart="65dp"
+            android:layout_marginStart="39dp"
             android:layout_marginTop="310dp"
             android:src="@drawable/white_bg" />
 
@@ -86,7 +86,7 @@
             style="@style/FontsForAllHeading"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="330dp"
             android:clickable="true"
             android:focusable="true"
@@ -104,13 +104,13 @@
             style="@style/SharedImageViewStyle"
             android:layout_width="300dp"
             android:layout_height="120dp"
-            android:layout_marginStart="55dp"
+            android:layout_marginStart="29dp"
             android:layout_marginTop="450dp" />
 
         <ImageView
             android:layout_width="280dp"
             android:layout_height="100dp"
-            android:layout_marginStart="65dp"
+            android:layout_marginStart="39dp"
             android:layout_marginTop="460dp"
             android:src="@drawable/white_bg" />
 
@@ -126,7 +126,7 @@
             style="@style/FontsForAllHeading"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="480dp"
             android:clickable="true"
             android:focusable="true"
