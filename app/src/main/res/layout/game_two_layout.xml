@@ -84,7 +84,7 @@
             android:background="@color/white"/>
 
 
-        <EditText
+        <TextView
             android:id="@+id/game_two_textview"
             android:layout_width="252dp"
             android:layout_height="60dp"
