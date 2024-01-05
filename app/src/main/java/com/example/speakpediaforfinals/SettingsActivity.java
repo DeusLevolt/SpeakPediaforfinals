@@ -14,7 +14,7 @@ import android.widget.TextView;
 public class SettingsActivity extends Activity {
 
     private TextView Theme;
-    private TextView AboutUs;
+    private TextView Sounds;
     private int[] ids = {R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10,R.id.themebluebutton,R.id.aboutusbluebutton};
 
 
@@ -24,7 +24,7 @@ public class SettingsActivity extends Activity {
         setContentView(R.layout.settings_layout);
 
          Theme = findViewById(R.id.theme);
-         AboutUs = findViewById(R.id.about);
+         Sounds = findViewById(R.id.sounds);
         ImageView back = findViewById(R.id.back_button_settings);
         ImageView top = findViewById(R.id.shared_background_7);
         ImageView bot = findViewById(R.id.shared_background_8);
@@ -47,11 +47,11 @@ public class SettingsActivity extends Activity {
              }
          });
 
-         AboutUs.setOnClickListener(new View.OnClickListener() {
+         Sounds.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 Intent AboutUs = new Intent(SettingsActivity.this, AboutUsActivity.class );
-                 startActivity(AboutUs);
+                 Intent Sound = new Intent(SettingsActivity.this, SoundActivity.class );
+                 startActivity(Sound);
              }
          });
     }

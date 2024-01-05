@@ -38,6 +38,7 @@
         <activity android:name=".Text_to_speech"/>
         <activity android:name=".GameTwoActivity"/>
         <activity android:name=".LeaderboardActivity" />
+        <activity android:name=".SoundActivity"/>
 
 
         <!-- Other activities and components can be declared here -->

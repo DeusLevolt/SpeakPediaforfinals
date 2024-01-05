@@ -36,8 +36,8 @@ public class AboutUsActivity extends Activity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent back_to_settings = new Intent(AboutUsActivity.this, SettingsActivity.class);
-                startActivity(back_to_settings);
+                Intent back_to_main = new Intent(AboutUsActivity.this, MainActivity.class);
+                startActivity(back_to_main);
             }
         });
     }

@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private Bundle savedInstanceState;
-    private int[] ids = {R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10,R.id.button1,R.id.button2,R.id.button3};
+    private int[] ids = {R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10,R.id.button1,R.id.button2,R.id.button3,R.id.headingAbout};
 
 
     @Override
@@ -29,8 +29,17 @@ public class MainActivity extends AppCompatActivity {
         TextView game = findViewById(R.id.heading3);
         TextView translator = findViewById(R.id.heading2);
         TextView Settings = findViewById(R.id.heading4);
+        TextView About = findViewById(R.id.aboutUs);
         loadSavedColor();
 
+
+        About.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent about = new Intent(MainActivity.this, AboutUsActivity.class);
+                startActivity(about);
+            }
+        });
 
         translator.setOnClickListener(new View.OnClickListener() {
             @Override

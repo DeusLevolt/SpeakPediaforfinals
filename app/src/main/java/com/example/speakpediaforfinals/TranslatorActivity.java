@@ -8,6 +8,8 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -118,7 +120,7 @@ public class TranslatorActivity extends AppCompatActivity {
 
     private void setupDialectSpinner() {
         // Define your dialect choices
-        String[] dialects = {"Hiligaynon", "Cebuano", "Ilokano"};
+        String[] dialects = {"Cebuano", "Hiligaynon", "Ilokano", "Kapampangan", "Chavacano"};
 
         // Create an ArrayAdapter using a simple spinner layout and your choices
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dialects);
@@ -134,6 +136,24 @@ public class TranslatorActivity extends AppCompatActivity {
         inputEditText = findViewById(R.id.input_edit_text);
         translationTextView = findViewById(R.id.translate_textView);
         // Initialize other views if necessary
+
+        inputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Do nothing before text changes
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Do nothing on text changing
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Translate text after it has changed
+                translateText();
+            }
+        });
     }
 
     private void setupRetrofit() {
@@ -180,7 +200,7 @@ public class TranslatorActivity extends AppCompatActivity {
 
     private void translateInBackground(String inputText) {
         CompletableFuture.supplyAsync(() -> {
-            String apiKey = "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"; // Replace with your actual API key
+            String apiKey = "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"; // Replace with your actual API key
             String prompt = "Translate the following " + selectedLanguage + " text to " + selectedDialect + ": '" + inputText + "'";
             String jsonInput = "{\"prompt\": \"" + prompt + "\", \"max_tokens\": 50, \"temperature\": 0.7}";
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
