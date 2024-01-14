@@ -29,6 +29,7 @@ public class SettingsActivity extends Activity {
         ImageView top = findViewById(R.id.shared_background_7);
         ImageView bot = findViewById(R.id.shared_background_8);
         loadSavedColor();
+        saveSelectedColor();
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

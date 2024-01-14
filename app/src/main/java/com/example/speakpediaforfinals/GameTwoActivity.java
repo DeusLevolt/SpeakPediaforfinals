@@ -14,6 +14,8 @@ import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +30,8 @@ import java.util.Locale;
 
 public class GameTwoActivity extends AppCompatActivity {
 
+    private  int score = 0;
+
     private SpeechRecognizer speechRecognizer;
     private TextView hintTextView;
     private TextView gameTwoTextView;
@@ -38,6 +42,9 @@ public class GameTwoActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private TextView timer;
     private int[] ids = {R.id.quizblue};
+    private ImageView micIcon;
+    private Animation pulsating;
+    public TextView scoreBoard;
 
 
     @Override
@@ -45,12 +52,15 @@ public class GameTwoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_two_layout);
 
+        micIcon = findViewById(R.id.micIcon);
+        pulsating = AnimationUtils.loadAnimation(this,R.anim.pulsate);
         ImageView back = findViewById(R.id.back_button_quiz);
         timer = findViewById(R.id.timerTextView);
         hintTextView = findViewById(R.id.hintTextView);
         speakButton = findViewById(R.id.game_speak_2);
         gameTwoTextView = findViewById(R.id.game_two_textview);
         ImageView speakQuizInfo = findViewById(R.id.speakQuiz_info);
+        scoreBoard = findViewById(R.id.scoreBoard);
         startTimer();
         loadSavedColor();
         saveSelectedColor();
@@ -73,17 +83,17 @@ public class GameTwoActivity extends AppCompatActivity {
         ArrayList<Pair<String, String>> questionAnswerPairs = new ArrayList<>();
 
 // Add your 10 questions here with their correct answers
-        questionAnswerPairs.add(new Pair<>("What is the capital of France?", "paris"));
-        questionAnswerPairs.add(new Pair<>("In which year did World War II end?", "1945"));
-        questionAnswerPairs.add(new Pair<>("Who wrote 'Romeo and Juliet'? note: only the surname", "shakespeare"));
-        questionAnswerPairs.add(new Pair<>("What is the largest planet in our solar system?", "jupiter"));
-        questionAnswerPairs.add(new Pair<>("What is the square root of 144?", "12"));
-        questionAnswerPairs.add(new Pair<>("Which element has the chemical symbol 'O'?", "oxygen"));
-        questionAnswerPairs.add(new Pair<>("Which planet is known as the Red Planet?", "mars"));
-        questionAnswerPairs.add(new Pair<>("What is the currency of Japan?", "yen"));
-        questionAnswerPairs.add(new Pair<>("In what year did the Titanic sink?", "1912"));
-        questionAnswerPairs.add(new Pair<>("What is the world's largest ocean?","pacific ocean"));
-        questionAnswerPairs.add(new Pair<>("Who developed the theory of relativity?","albert einstein"));
+        questionAnswerPairs.add(new Pair<>("What is the national language in the Philippines? ", "Filipino"));
+        questionAnswerPairs.add(new Pair<>("What is the 2nd language spoken in the Country? ", "English"));
+        questionAnswerPairs.add(new Pair<>("In what province does Hundred islands located? ", "Pangasinan"));
+        questionAnswerPairs.add(new Pair<>("It is known all over the world for its white sand beach?", "Boracay island"));
+        questionAnswerPairs.add(new Pair<>("A dialect that is based from Spanish Chorale? ", "Chavacano"));
+        questionAnswerPairs.add(new Pair<>("It is named the 'Queen city of the South?'", "Cebu"));
+        questionAnswerPairs.add(new Pair<>("In what province is called Culinary Capital of the Philippines", "Pampanga"));
+        questionAnswerPairs.add(new Pair<>("What dialect is spoken in Northern Luzon? ", "Ilocano"));
+        questionAnswerPairs.add(new Pair<>("In what province mainly chavacano spoken?", "Zamboanga"));
+        questionAnswerPairs.add(new Pair<>("What dialect does people in Boracay spoken? ","Hiligaynon"));
+        questionAnswerPairs.add(new Pair<>("In what province does Boracay island where found? ","Aklan"));
 // Add more questions...
 
 // Shuffle the pairs
@@ -110,12 +120,16 @@ public class GameTwoActivity extends AppCompatActivity {
             public void onReadyForSpeech(Bundle params) {
                 // Speech recognition is ready
                 Log.d("SpeechRecognition", "Ready for speech");
+                micIcon.setVisibility(View.VISIBLE);
+                micIcon.startAnimation(pulsating);
             }
 
             @Override
             public void onBeginningOfSpeech() {
                 // User started speaking
                 Log.d("SpeechRecognition", "Beginning of speech");
+                micIcon.setVisibility(View.VISIBLE);
+                micIcon.setAnimation(pulsating);
             }
 
             @Override
@@ -132,6 +146,8 @@ public class GameTwoActivity extends AppCompatActivity {
             public void onEndOfSpeech() {
                 // User finished speaking
                 Log.d("SpeechRecognition", "End of speech");
+                micIcon.clearAnimation();
+                micIcon.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -156,6 +172,13 @@ public class GameTwoActivity extends AppCompatActivity {
                 if (userAnswer.equalsIgnoreCase(correctAnswer)) {
                     // Correct answer handling, update score or perform other actions
                     showToast("Correct!");
+
+                    // Assign points for the correct answer (customize as needed)
+                    int pointsForCorrectAnswer = calculatePointsForCurrentQuestion();
+                    score += pointsForCorrectAnswer;
+
+                    // Log the updated score
+                    Log.d("ScoreUpdate", "Updated Score: " + score);
                 } else {
                     // Incorrect answer handling, if needed
                     showToast("Incorrect. The correct answer is: " + correctAnswer);
@@ -164,8 +187,59 @@ public class GameTwoActivity extends AppCompatActivity {
                 // Move to the next question
                 currentQuestionIndex++;
                 displayNextQuestion();
+
+                // Update the scoreboard with the total score
+                updateScoreDisplay();
             }
 
+
+
+            private int calculatePointsForCurrentQuestion() {
+                // Retrieve the current question
+                String currentQuestion = questions.get(currentQuestionIndex);
+
+                // Add a log statement to check the current question and its associated points
+                Log.d("ScoreUpdate", "Calculating points for question: " + currentQuestion);
+
+                // Assign points based on the specific questions
+                if (currentQuestion.equalsIgnoreCase("In what province does Boracay island where found?")) {
+                    Log.d("ScoreUpdate", "Points for the specified question: 5");
+                    return 5;  // Points for the specified question
+                } else if (currentQuestion.equalsIgnoreCase("In what province is called Culinary Capital of the Philippines")) {
+                    Log.d("ScoreUpdate", "Points for another specified question: 7");
+                    return 7;  // Points for another specified question
+                } else if (currentQuestion.equalsIgnoreCase("What is the 2nd language spoken in the Country?")){
+                    Log.d("ScoreUpdate", "Default points: 3");
+                    return 3;   // Default points
+                } else if (currentQuestion.equalsIgnoreCase("What is the national language in the Philippines?")) {
+                    Log.d("ScoreUpdate", "Default points: 4");
+                    return 4;   // Default points
+                } else if (currentQuestion.equalsIgnoreCase("In what province does Hundred islands located?")) {
+                    Log.d("ScoreUpdate", "Points for the specified question: 10");
+                    return 10;  // Points for the specified question
+                } else if (currentQuestion.equalsIgnoreCase("It is known all over the world for its white sand beach?")) {
+                    Log.d("ScoreUpdate", "Points for the specified question: 8");
+                    return 8;   // Points for the specified question
+                } else if (currentQuestion.equalsIgnoreCase("A dialect that is based from Spanish Chorale?")) {
+                    Log.d("ScoreUpdate", "Points for the specified question: 10");
+                    return 10;  // Points for the specified question
+                } else if (currentQuestion.equalsIgnoreCase("It is named the 'Queen city of the South?")) {
+                    Log.d("ScoreUpdate", "Points for the specified question: 9");
+                    return 9;   // Points for the specified question
+                } else if (currentQuestion.equalsIgnoreCase("What dialect is spoken in Northern Luzon?")) {
+                    Log.d("ScoreUpdate", "Points for the specified question: 6");
+                    return 6;   // Points for the specified question
+                } else if (currentQuestion.equalsIgnoreCase("In what province mainly chavacano spoken?")) {
+                    Log.d("ScoreUpdate", "Points for the specified question: 6");
+                    return 6;   // Points for the specified question
+                } else if (currentQuestion.equalsIgnoreCase("What dialect does people in Boracay spoken?")) {
+                    Log.d("ScoreUpdate", "Points for the specified question: 2");
+                    return 2;   // Points for the specified question
+                } else {
+                    Log.d("ScoreUpdate", "Default points: 1");
+                    return 1;   // Default points
+                }
+            }
 
             @Override
             public void onPartialResults(Bundle bundle) {
@@ -182,6 +256,8 @@ public class GameTwoActivity extends AppCompatActivity {
             @Override
             public void onError(int errorCode) {
                 // Handle speech recognition error
+                micIcon.clearAnimation();
+                micIcon.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -196,6 +272,15 @@ public class GameTwoActivity extends AppCompatActivity {
         // Display the first question
         displayNextQuestion();
     }
+
+    private void updateScoreDisplay() {
+        // Update the TextView with the current score
+        Log.d("ScoreUpdate", "Updated Score: " + score);
+        scoreBoard.setText("Score: " + score);
+    }
+
+
+
 
     private void showInfoDialog() {
         // Create a custom dialog
@@ -261,6 +346,7 @@ public class GameTwoActivity extends AppCompatActivity {
             // All questions have been displayed
             hintTextView.setText("All questions answered");
         }
+        updateScoreDisplay();
     }
 
 
@@ -269,6 +355,15 @@ public class GameTwoActivity extends AppCompatActivity {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+
+        // Show mic icon and start animation on the main thread
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                micIcon.setVisibility(View.VISIBLE);
+                micIcon.startAnimation(pulsating);
+            }
+        });
         speechRecognizer.startListening(intent);
     }
 

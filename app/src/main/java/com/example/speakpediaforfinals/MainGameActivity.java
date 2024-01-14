@@ -1,5 +1,6 @@
 package com.example.speakpediaforfinals;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,16 +39,13 @@ public class MainGameActivity extends AppCompatActivity {
 
     private String correctWord;
 
-    private static final String[] words = {"smell", "crowd", "gifts", "light", "water", "music", "paint", "book", "phone", "games"};
+    private static final String[] words = {"virus", "whale", "money", "titan", "china", "music", "puppy", "books", "phone","photo","table","train","water","metal","cable",};
     private Map<String, String> wordHintMap;
     private Button[] letterButtons;
     private List<String> shownWords;
-    private int currentWordIndex = 0; // To keep track of the current word index
     private int score = 0;
     private static final String KEY_CURRENT_QUESTION_INDEX = "current_question_index";
     private static final String KEY_IS_GAME_OVER = "is_game_over";
-    private static final int NUM_LETTER_BUTTONS = 5;
-
 
     private int currentQuestionIndex = 0;
     private boolean isGameOver = false;
@@ -72,8 +70,15 @@ public class MainGameActivity extends AppCompatActivity {
         letterButtons[4] = findViewById(R.id.button5);
         ImageButton deleteButton = findViewById(R.id.imageButtondel);
         ImageButton shuffleButton = findViewById(R.id.shuffle_button);
+        ImageView help = findViewById(R.id.helpbuttongame1);
         loadSavedColor();
-        loadSavedScore();
+        
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showInfoDialog();
+            }
+        });
 
         leaderboardImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,8 +99,11 @@ public class MainGameActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainGameActivity.this, GameActivity.class);
-                startActivity(intent);
+                if (isGameOver) {
+                    // Save the remaining score in the leaderboard with a default username
+                    saveToLeaderboard("quitedUser", score);
+                }
+                showQuitConfirmationDialog();
             }
         });
 
@@ -122,105 +130,62 @@ public class MainGameActivity extends AppCompatActivity {
         }
     }
 
-    private boolean startGame() {
-        // Initialize the current question index
-        currentQuestionIndex = 0;
-        correctWord = getJumbledWord();
-        jumbledWordTextView.setText(""); // Clear the TextView initially
+    private void showInfoDialog() {
+        // Create a custom dialog
+        final Dialog infoDialog = new Dialog(this);
+        infoDialog.setContentView(R.layout.custom_info_dialog); // Create a layout file for your custom dialog
 
-        // Check if all words have been shown once
-        if (shownWords.size() == words.length) {
-            // If all words have been shown once, reset the list
-            shownWords.clear();
-            // Optionally, you can display a message or perform other actions for completing the game
-            Toast.makeText(this, "Congratulations! You've completed the game.", Toast.LENGTH_SHORT).show();
-            // Restart the game by calling the method recursively
-            showUsernameInputNotice();
-            return startGame();
-        }
-        List<String> notShownWords = getNotShownWords();
+        // Customize your dialog's UI components
+        TextView dialogText = infoDialog.findViewById(R.id.dialog_text);
+        // Set the text you want to display in the dialog
+        dialogText.setText("This game is all general questions. (except math)");
 
-        // Get a random word from the list of not-shown-yet words
-        if (!notShownWords.isEmpty()) {
-            Random random = new Random();
-            int randomIndex = random.nextInt(notShownWords.size());
-            String word = notShownWords.get(randomIndex);
-
-            Log.d("GameDebug", "Selected Word: " + word);
-
-            // If the word has already been shown in this session, get the next word
-            while (shownWords.contains(word)) {
-                word = words[currentWordIndex];
-                currentWordIndex = (currentWordIndex) % words.length;
-            }
-
-            // Add the selected word to the list of shown words
-            shownWords.add(word);
-            // Set the current word index for the next iteration
-            currentWordIndex = (currentWordIndex + 1) % words.length;
-
-            // Set a fixed width for the buttons to prevent them from moving when hidden
-            int buttonWidth = getResources().getDimensionPixelSize(R.dimen.button_fixed_width);
-            for (Button button : letterButtons) {
-                button.getLayoutParams().width = buttonWidth;
-                button.requestLayout(); // Refresh the layout after setting the width
-            }
-            //set all letter buttons to visible
-            for (Button button : letterButtons) {
-                button.setVisibility(View.VISIBLE);
-            }
-
-            // Update the hint text based on the current jumbled word
-            String hint = wordHintMap.get(getOriginalWord(correctWord));
-            hintTextView.setText(hint);
-
-            // Shuffle the letters of the jumbled word to ensure they are displayed in random order
-            String shuffledWord = shuffleWord(correctWord);
-
-            // Ensure the shuffled word has a length of at least 5 before accessing characters at index 4 or higher
-            if (shuffledWord.length() >= 5) {
-                // Update the buttons with the jumbled letters
-                for (int i = 0; i < letterButtons.length; i++) {
-                    char letter = shuffledWord.charAt(i);
-                    letterButtons[i].setText(String.valueOf(letter));
-                    letterButtons[i].setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Button button = (Button) v;
-                            String buttonText = button.getText().toString();
-                            String currentText = jumbledWordTextView.getText().toString();
-                            jumbledWordTextView.setText(currentText + buttonText);
-
-                            //hide the button when the user click it
-                            button.setVisibility(View.INVISIBLE);
-
-                            //re-enable the delete button
-                            ImageButton deleteButton = findViewById(R.id.imageButtondel);
-                            deleteButton.setEnabled(true);
-
-                        }
-                    });
-                }
-                return true; // Indicate that a new word has been successfully selected
-            }
-        } else {
-            // Handle the case where all words have been shown at least once
-            // You might want to reshuffle, reset, or handle this scenario based on your requirements
-            Toast.makeText(this, "All questions have been answered!", Toast.LENGTH_SHORT).show();
-            return false; // Indicate that no new word has been selected
-        }
-        return true; // Indicate that a new word has been successfully selected
+        // Show the dialog
+        infoDialog.show();
     }
 
+    private boolean startGame() {
+        do {
+            correctWord = getJumbledWord();
+        } while (shownWords.contains(correctWord));
+        baseScore = 1;
+        jumbledWordTextView.setText("");
+        // Add the selected word to the list of shown words
+        shownWords.add(correctWord);
 
-    private List<String> getNotShownWords() {
-        List<String> notShownWords = new ArrayList<>();
-        for (String word : words) {
-            if (!shownWords.contains(word)) {
-                notShownWords.add(word);
+        // Update the hint text based on the current jumbled word
+        String hint = wordHintMap.get(getOriginalWord(correctWord));
+        hintTextView.setText(hint);
+
+        // Rest of the code...
+        String shuffledWord = shuffleWord(correctWord);
+        // Ensure the shuffled word has a length of at least 5 before accessing characters at index 4 or higher
+        if (shuffledWord.length() >= 5) {
+            // Update the buttons with the jumbled letters
+            for (int i = 0; i < letterButtons.length; i++) {
+                char letter = shuffledWord.charAt(i);
+                letterButtons[i].setText(String.valueOf(letter));
+                letterButtons[i].setVisibility(View.VISIBLE);  // Ensure the button is visible
+                letterButtons[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Button button = (Button) v;
+                        String buttonText = button.getText().toString();
+                        String currentText = jumbledWordTextView.getText().toString();
+                        jumbledWordTextView.setText(currentText + buttonText);
+
+                        // hide the button when the user clicks it
+                        button.setVisibility(View.INVISIBLE);
+
+                        // re-enable the delete button
+                        ImageButton deleteButton = findViewById(R.id.imageButtondel);
+                        deleteButton.setEnabled(true);
+                    }
+                });
             }
+            return true; // Indicate that a new word has been successfully selected
         }
-        return notShownWords;
+        return true; // Indicate that a new word has been successfully selected
     }
 
 
@@ -229,14 +194,45 @@ public class MainGameActivity extends AppCompatActivity {
         if (!userAnswer.isEmpty() && userAnswer.equalsIgnoreCase(getOriginalWord(correctWord))) {
             Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
             updateScore();
-            startGame();
+            jumbledWordTextView.setText("");  // Clear the text after a correct answer
+            //call updatescore when the answer is correct
+
+            // Check if all words have been shown
+            if (shownWords.size() == words.length) {
+                // Show the username input notice since all words have been answered
+                showUsernameInputNotice();
+
+                // Reset the game after finishing
+                resetGame();
+            } else {
+                // Continue the game by starting a new word
+                startGame();
+            }
         } else {
             Toast.makeText(this, "Incorrect. Try again!", Toast.LENGTH_SHORT).show();
         }
 
         // Call the new method to display the original word
         displayOriginalWord(correctWord);
+
+        if (isGameOver){
+           saveToLeaderboard("quited_user", score);
+        }
     }
+
+    private void resetGame() {
+        // Reset any game-related variables or UI elements here
+        shownWords.clear();
+        score = 0;
+        baseScore = 1;
+        // Reset any other game-specific states or variables as needed
+
+        // Start a new game
+        startGame();
+    }
+
+
+
 
 
     private void showUsernameInputNotice() {
@@ -245,16 +241,25 @@ public class MainGameActivity extends AppCompatActivity {
 
         new AlertDialog.Builder(this)
                 .setTitle("Game Over")
-                .setMessage("Congratulations! You've completed the game. Enter your username:")
+                .setMessage("Let's record your data. Please enter your desired username:")
                 .setView(usernameInput)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String username = usernameInput.getText().toString();
-                        saveToLeaderboard(username, score);
-                        // Optionally, you can navigate to the leaderboard activity or perform other actions.
+                        if (!username.isEmpty()) {
+                            // Save the score with the entered username
+                            saveToLeaderboard(username, score);
+                        }
+                        // Finish the activity (quit the game) regardless of whether a username is provided or not
+                        finish();
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // If the user clicks "Cancel," finish the activity (quit the game)
+                        finish();
+                    }
+                })
                 .show();
     }
 
@@ -294,19 +299,23 @@ public class MainGameActivity extends AppCompatActivity {
     }
 
 
-    private void updateScore() {
-        // Generate a random score between 1 and 2 for each question
-        int randomScore = 1 + new Random().nextInt(2); // Random value between 1 and 2 (inclusive)
+    private int baseScore = 1; // Initial base score
 
-        // Update the score with the random value
-        score += randomScore;
+    private void updateScore() {
+        // Increment the base score for each correct word
+        baseScore++;
+
+        // Update the score with the incremented base score
+        score += baseScore;
 
         saveScoreToPreferences();
+        Log.d("ScoreDebug", "Current Score: " + score);
 
         // Update UI or perform any other actions related to scoring.
         TextView scoreTextView = findViewById(R.id.scoreTextView);
         scoreTextView.setText(String.valueOf(score));
     }
+
 
     private List<LeaderboardEntry> loadLeaderboard() {
         // Load existing leaderboard entries from SharedPreferences
@@ -384,16 +393,22 @@ public class MainGameActivity extends AppCompatActivity {
     private void initializeWordHintMap() {
         wordHintMap = new HashMap<>();
         // Add word-hint pairs to the map
-        wordHintMap.put("smell", "A human human sensory to pick up scent.");
-        wordHintMap.put("crowd", " A large number of people gathered together in a disorganized or unruly way.");
-        wordHintMap.put("gifts", "Thing given willingly to someone without payment.");
-        wordHintMap.put("light", "the natural agent that stimulates sight and makes things visible.");
-        wordHintMap.put("water", "transparent, odorless, tasteless liquid compound.");
-        wordHintMap.put("music", " vocal, instrumental, or mechanical sounds having rhythm, melody, or harmony.");
-        wordHintMap.put("paint", "A liquid substance that is applied to various surfaces to create a protective or decorative coating.");
+        wordHintMap.put("whale", "What is the largest mammal on Earth?");
+        wordHintMap.put("china", "What country is the most populated country in the world?");
+        wordHintMap.put("money", "What do we use to buy things?");
+        wordHintMap.put("music", "Vocal, instrumental, or mechanical sounds having rhythm, melody, or harmony.");
+        wordHintMap.put("puppy", "What do you call a young dog?");
         wordHintMap.put("books", "Written or printed work consist of pages.");
-        wordHintMap.put("phone", "refers to a communication device that allows people to speak with each other over long distances.");
-        wordHintMap.put("games", "structured, interactive activities for enjoyment, involving entertainment, and skill development.");
+        wordHintMap.put("phone", "Refers to a communication device that allows people to speak with each other over long distances.");
+        wordHintMap.put("titan","In astronomy, what is the name of the largest moon of Saturn?");
+        wordHintMap.put("photo","What term refers to a single, still image that captures a moment in time?");
+        wordHintMap.put("virus","What term describes malicious software that can self-replicate and spread to other systems?");
+        wordHintMap.put("table", "What versatile piece of furniture has a flat top and legs, often used for various activities like dining or working?");
+        wordHintMap.put("train", "What mode of transportation typically runs on tracks and carries passengers or cargo?");
+        wordHintMap.put("cable", "What connects electronic devices and allows them to communicate with each other?");
+        wordHintMap.put("water", "What essential liquid is colorless, tasteless, and odorless, crucial for sustaining life?");
+        wordHintMap.put("metal", "What solid material is known for its conductivity, strength, and often used in construction and manufacturing?");
+
     }
 
     @Override
@@ -432,27 +447,36 @@ public class MainGameActivity extends AppCompatActivity {
     }
 
     private void reshuffleGame() {
-        // Reshuffle the jumbled word and update the jumbledWordTextView
-        correctWord = getJumbledWord();
-        jumbledWordTextView.setText("");
+        // Get the letters of the current jumbled word
+        char[] letters = correctWord.toCharArray();
 
-        // Reshuffle the letters of the jumbled word to update the buttons
-        String shuffledWord = shuffleWord(correctWord);
+        // Shuffle the letters using a Fisher-Yates shuffle
+        Random random = new Random();
+        for (int i = letters.length - 1; i > 0; i--) {
+            int index = random.nextInt(i + 1);
+            char temp = letters[index];
+            letters[index] = letters[i];
+            letters[i] = temp;
+        }
+
+        // Log the shuffled word for debugging
+        String shuffledWord = new String(letters);
+        Log.d("ShuffleDebug", "Shuffled Word: " + shuffledWord);
+
+        // Update the buttons with the shuffled letters
         for (int i = 0; i < letterButtons.length; i++) {
-            char letter = shuffledWord.charAt(i);
-            letterButtons[i].setText(String.valueOf(letter));
+            letterButtons[i].setText(String.valueOf(letters[i]));
             letterButtons[i].setVisibility(View.VISIBLE);
         }
 
         // Call the new method to display the original word
         displayOriginalWord(correctWord);
-
-        if (!startGame()){
-            // Handle the case where all words have been shown at least once
-            // You might want to reshuffle, reset, or handle this scenario based on your requirements
-            Toast.makeText(this, "All questions have been answered!", Toast.LENGTH_SHORT).show();
-        }
     }
+
+
+
+
+
 
     private void loadSavedColor () {
         SharedPreferences preferences = getSharedPreferences("theme_preferences", MODE_PRIVATE);
@@ -476,6 +500,33 @@ public class MainGameActivity extends AppCompatActivity {
         String originalWord = getOriginalWord(jumbledWord);
         String hint = wordHintMap.get(originalWord);
         hintTextView.setText(hint);
+    }
+
+    private void showQuitConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Quit Game");
+        builder.setMessage("Are you sure you want to quit?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // If the user clicks "Yes," finish the activity (quit the game)
+                showUsernameInputNotice();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // If the user clicks "No," dismiss the dialog
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        showQuitConfirmationDialog();
     }
 
 }

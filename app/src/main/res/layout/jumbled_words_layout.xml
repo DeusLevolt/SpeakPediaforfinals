@@ -32,7 +32,7 @@
         android:id="@+id/heading7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="130dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="25dp"
         android:text="Words"
         style="@style/FontsForAllHeading"/>
@@ -41,8 +41,16 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="260dp"
+        android:layout_marginStart="220dp"
         android:src="@drawable/icon_letters"/>
+    <ImageView
+        android:id="@+id/helpbuttongame1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="290dp"
+        android:src="@drawable/helpbutton"
+        />
 
     <RelativeLayout
         android:id="@+id/jumbledwordsblue"
@@ -71,11 +79,12 @@
 
         <TextView
             android:id="@+id/hintTextView"
-            android:layout_width="310dp"
+            android:layout_width="320dp"
             android:layout_height="130dp"
-            android:layout_marginStart="17dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="50dp"
-            android:background="@color/white"
+            android:padding="10dp"
+            android:background="@drawable/white_bg"
             android:ellipsize="end"
             android:maxLines="4"
             android:scrollbars="vertical"

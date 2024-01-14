@@ -1,5 +1,7 @@
 package com.example.speakpediaforfinals;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -17,7 +19,6 @@ public class GameActivity extends AppCompatActivity {
 
     private int[] ids = {R.id.blue_quiz ,R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10, R.id.blue1, R.id.blue2};
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +28,16 @@ public class GameActivity extends AppCompatActivity {
         TextView Jumbled = findViewById(R.id.jumbled_word);
         TextView Tts = findViewById(R.id.game_2);
         ImageView back = findViewById(R.id.back_button_game);
-        ImageView top = findViewById(R.id.shared_background_5);
-        ImageView bot = findViewById(R.id.shared_background_6);
         TextView quiz_game = findViewById(R.id.quiz_game);
+        ImageView help = findViewById(R.id.gamehelpbutton);
         loadSavedColor();
 
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showHelpDialog();
+            }
+        });
 
         quiz_game.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +69,25 @@ public class GameActivity extends AppCompatActivity {
                 startActivity(jumbled_words);
             }
         });
+    }
+
+    private void showHelpDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Help"); // Set the title of the dialog
+        builder.setMessage("Jumbled Word game is general questions (except math)while the speak quiz is dialects and Phillipine's region."); // Set the message to be displayed
+
+        // Set a button for the user to acknowledge the message
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // You can perform any action here upon clicking the OK button
+                dialog.dismiss(); // Dismiss the dialog
+            }
+        });
+
+        // Create and show the dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void applyColorToImageView() {

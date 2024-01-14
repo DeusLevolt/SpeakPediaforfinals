@@ -1,15 +1,19 @@
 package com.example.speakpediaforfinals;
 
-import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.View;
 import android.widget.ProgressBar;
 
-import com.example.speakpediaforfinals.R;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends AppCompatActivity {
+
+
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,16 +21,59 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
 
         ProgressBar progressBar = findViewById(R.id.progressBar);
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.loading_bar_anim);
-        progressBar.startAnimation(animation);
 
-        // You can also add a delay and then launch your main activity or another screen.
-        // For example:
+
+        // Initialize MediaPlayer
+        mediaPlayer = MediaPlayer.create(this, R.raw.splashscreenbg); // Replace with your audio file
+        mediaPlayer.setLooping(true); // Set looping to true for background music
+        // Start the MediaPlayer
+        mediaPlayer.start();
+
+
+        // Delay for 5 seconds before showing the terms
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Start your main activity or other screen here
+                // Check if the terms have been shown before
+                SharedPreferences preferences = getSharedPreferences("app_preferences", MODE_PRIVATE);
+                boolean termsShownBefore = preferences.getBoolean("terms_shown_before", false);
+
+                if (!termsShownBefore) {
+                    // If terms have not been shown before, show the TermsAndConditionsActivity
+                    showTermsAndConditions();
+                } else {
+                    // If terms have been shown before, proceed with your normal flow
+                    // hide the progress bar
+                    progressBar.setVisibility(View.GONE);
+
+                    // Start your main activity or other screen here
+                    Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(mainIntent);
+
+                    // Stop the MediaPlayer
+                    stopMediaPlayer();
+
+                    // Finish the current activity
+                    finish();
+                }
             }
-        }, 3000); // Delay for 3 seconds (adjust as needed)
+        }, 7000); // Delay for 5 seconds (adjust as needed)
+    }
+
+    private void stopMediaPlayer() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
+    private void showTermsAndConditions() {
+        // Show the TermsAndConditionsActivity
+        Intent termsIntent = new Intent(SplashActivity.this, TermsAndConditionsActivity.class);
+        startActivity(termsIntent);
+
+        // Finish the current activity to prevent going back
+        finish();
     }
 }

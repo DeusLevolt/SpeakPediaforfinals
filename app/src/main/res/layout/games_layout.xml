@@ -31,8 +31,16 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="30dp"
-        android:layout_marginStart="240dp"
+        android:layout_marginStart="220dp"
         android:src="@drawable/console"/>
+
+    <ImageView
+        android:id="@+id/gamehelpbutton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="310dp"
+        android:src="@drawable/helpbutton"/>
 
     <ImageView
         android:id="@+id/shared_background_6"

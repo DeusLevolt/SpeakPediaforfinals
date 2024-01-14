@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/music_option_1"
+        android:title="Music 1" />
+    <item
+        android:id="@+id/music_option_2"
+        android:title="Music 2" />
+    <item
+        android:id="@+id/music_option_3"
+        android:title="Music 3"/>
+    <item
+        android:id="@+id/music_option_4"
+        android:title="Music 4"/>
+    <item
+        android:id="@+id/music_option_5"
+        android:title="Music 5"/>
+    <!-- Add more items as needed -->
+</menu>

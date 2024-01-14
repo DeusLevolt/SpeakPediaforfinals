@@ -5,15 +5,16 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/Green">
+    android:background="@drawable/splashscreen">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/appicon" />
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:src="@drawable/icon_speakpedia_finals" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+       android:indeterminateTint="@color/orange"/>
 </LinearLayout>

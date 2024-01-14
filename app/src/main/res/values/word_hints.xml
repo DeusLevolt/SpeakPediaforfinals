@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="word_hints">
+        <item name="smell">A human sensory to pick up scent.</item>
+        <item name="crowd">A large number of people gathered together in a disorganized or unruly way.</item>
+        <item name="titan">In astronomy, what is the name of the largest moon of Saturn?</item>
+        <item name="books">Written or printed work consist of pages.</item>
+        <item name="phone">refers to a communication device that allows people to speak with each other over long distances.</item>
+        <item name="puppy">What do you call a young dog?</item>
+        <item name="whale">What is the largest mammal on Earth?</item>
+        <item name="titan">In astronomy, what is the name of the largest moon of Saturn?</item>
+        <item name="titan">In astronomy, what is the name of the largest moon of Saturn?</item>
+        <item name="titan">In astronomy, what is the name of the largest moon of Saturn?</item>
+        <item name="titan">In astronomy, what is the name of the largest moon of Saturn?</item>
+        <item name="titan">In astronomy, what is the name of the largest moon of Saturn?</item>
+        <item name="titan">In astronomy, what is the name of the largest moon of Saturn?</item>
+        <item name="titan">In astronomy, what is the name of the largest moon of Saturn?</item>
+        <item name="titan">In astronomy, what is the name of the largest moon of Saturn?</item>
+        <!-- Add more items for other words and hints -->
+    </string-array>
+</resources>

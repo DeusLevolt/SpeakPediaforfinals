@@ -22,14 +22,17 @@
         <!-- Define your main activity, which is typically the entry point of your app -->
         <activity android:name="com.example.speakpediaforfinals.MainActivity"
             android:exported="true">
+        </activity>
+
+        <activity android:name=".SplashActivity"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
        <activity android:name=".SettingsActivity"/>
-        <activity android:name=".SplashActivity"/>
         <activity android:name=".TranslatorActivity"/>
         <activity android:name=".ThemeActivity"/>
         <activity android:name=".AboutUsActivity"/>
@@ -39,9 +42,11 @@
         <activity android:name=".GameTwoActivity"/>
         <activity android:name=".LeaderboardActivity" />
         <activity android:name=".SoundActivity"/>
-
-
+        <activity android:name=".TermsAndConditionsActivity"/>
         <!-- Other activities and components can be declared here -->
+
+        <service android:name=".BackgroundMusicService" />
+
 
     </application>
 </manifest>

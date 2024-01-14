@@ -19,9 +19,6 @@ import androidx.core.content.ContextCompat;
 public class ThemeActivity extends Activity {
 
     private int[] ids = {R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10, R.id.bgbluebutton};
-    private int[] headerFonts = {R.id.heading1, R.id.heading2, R.id.heading3, R.id.heading4, R.id.heading5, R.id.heading6, R.id.heading7, R.id.heading8, R.id.heading9, R.id.heading10, R.id.heading11, R.id.heading12};
-    private static final String FONT_PATH_A = "res/font/baloo.ttf";
-    private String savedFontPath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
