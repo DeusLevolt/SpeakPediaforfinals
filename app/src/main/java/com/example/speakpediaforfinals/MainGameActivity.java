@@ -138,7 +138,7 @@ public class MainGameActivity extends AppCompatActivity {
         // Customize your dialog's UI components
         TextView dialogText = infoDialog.findViewById(R.id.dialog_text);
         // Set the text you want to display in the dialog
-        dialogText.setText("This game is all general questions. (except math)");
+        dialogText.setText("You will guess and arrange the jumbled letters to guess the answer of the given definition. ");
 
         // Show the dialog
         infoDialog.show();

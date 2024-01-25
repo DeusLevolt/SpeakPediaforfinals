@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -161,9 +162,13 @@ public class TranslatorActivity extends AppCompatActivity {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        // Build an OkHttpClient and add the logging interceptor
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(logging);
+        // Set custom timeout values (adjust as needed)
+        int timeoutSeconds = 30;
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
+                .connectTimeout(timeoutSeconds, TimeUnit.SECONDS)
+                .readTimeout(timeoutSeconds, TimeUnit.SECONDS)
+                .writeTimeout(timeoutSeconds, TimeUnit.SECONDS)
+                .addInterceptor(logging);
 
         // Build Retrofit with the OkHttpClient
         Retrofit retrofit = new Retrofit.Builder()
@@ -200,10 +205,11 @@ public class TranslatorActivity extends AppCompatActivity {
 
     private void translateInBackground(String inputText) {
         CompletableFuture.supplyAsync(() -> {
-            String apiKey = "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"; // Replace with your actual API key
+            String apiKey = "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"; // Replace with your actual API key
             String prompt = "Translate the following " + selectedLanguage + " text to " + selectedDialect + ": '" + inputText + "'";
             String jsonInput = "{\"prompt\": \"" + prompt + "\", \"max_tokens\": 50, \"temperature\": 0.7}";
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
 
             int retryCount = 0;
             while (retryCount < 3) {
@@ -220,6 +226,7 @@ public class TranslatorActivity extends AppCompatActivity {
                         Thread.sleep(1000);
                     } else {
                         Log.e("TranslationTask", "Unexpected Response Code: " + response.code());
+                        Log.e("Translator","API req: "+call.request().toString());
                         return "Error: Unexpected response code " + response.code();
                     }
                 } catch (Exception e) {

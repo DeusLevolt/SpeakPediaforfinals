@@ -6,8 +6,12 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface OpenAiTranslationService {
-    @POST("v1/engines/text-davinci-003/completions")
-    Call<ResponseBody> translateText(@Header("Authorization") String authHeader, @Body RequestBody body);
+    @POST("v1/engines/gpt-3.5-turbo-instruct/completions")
+    Call<ResponseBody> translateText(
+            @Header("Authorization") String authHeader,
+            @Body RequestBody body
+    );
 }

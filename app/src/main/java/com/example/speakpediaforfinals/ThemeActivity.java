@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 
 public class ThemeActivity extends Activity {
 
+    //ids of the imageviews you want to change color//
     private int[] ids = {R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10, R.id.bgbluebutton};
 
     @Override

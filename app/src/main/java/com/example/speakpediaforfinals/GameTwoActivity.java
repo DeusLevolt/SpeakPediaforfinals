@@ -290,7 +290,7 @@ public class GameTwoActivity extends AppCompatActivity {
         // Customize your dialog's UI components
         TextView dialogText = infoDialog.findViewById(R.id.dialog_text);
         // Set the text you want to display in the dialog
-        dialogText.setText("To play, click the speaker icon and wait for a sound. Then say your answer before the time runs out.");
+        dialogText.setText("Speak the answer to the mic of your phone with the help of the guide questions.");
 
         // Show the dialog
         infoDialog.show();
