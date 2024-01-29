@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Intent backgroundMusicIntent; // Declare the intent at the class level
     private BackgroundMusicService musicService;
     private boolean isBound = false;
+    private MediaPlayer buttonClickSound;
 
 
     @Override
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         // Start the background music service
         loadSavedColor();
         saveSelectedColor();
+        // Initialize MediaPlayer for button click sound
+        buttonClickSound = MediaPlayer.create(this, R.raw.click);
 
         // Check if Terms and Conditions have been accepted
         boolean termsAccepted = checkTermsAndConditions();
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent about = new Intent(MainActivity.this, AboutUsActivity.class);
                     startActivity(about);
+                    // Play sound when the button is clicked
+                    playButtonClickSound();
                 }
             });
 
@@ -66,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent translator = new Intent(MainActivity.this, TranslatorActivity.class);
                     startActivity(translator);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    // Play sound when the button is clicked
+                    playButtonClickSound();
                 }
             });
 
@@ -75,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent settings = new Intent(MainActivity.this, SettingsActivity.class);
                     startActivity(settings);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    // Play sound when the button is clicked
+                    playButtonClickSound();
                 }
             });
 
@@ -84,10 +94,18 @@ public class MainActivity extends AppCompatActivity {
                     Intent game = new Intent(MainActivity.this, GameActivity.class);
                     startActivity(game);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    // Play sound when the button is clicked
+                    playButtonClickSound();
                 }
             });
         }
     }
+    private void playButtonClickSound() {
+        if (buttonClickSound != null) {
+            buttonClickSound.start();
+        }
+    }
+
 
     private boolean checkTermsAndConditions() {
         SharedPreferences preferences = getSharedPreferences("app_preferences", MODE_PRIVATE);
@@ -149,6 +167,8 @@ public class MainActivity extends AppCompatActivity {
         // Stop the background music service when the activity is destroyed
         if (backgroundMusicIntent != null) {
             stopService(backgroundMusicIntent);
+        } if (buttonClickSound != null){
+            buttonClickSound.release();
         }
         super.onDestroy();
     }

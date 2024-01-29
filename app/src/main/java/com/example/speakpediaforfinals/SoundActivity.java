@@ -10,8 +10,10 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -21,7 +23,7 @@ public class SoundActivity extends Activity {
     private MediaPlayer mediaPlayer;
 
 
-    private int[] ids = { R.id.soundbluebutton,R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10,R.id.button1,R.id.button2,R.id.button3,R.id.headingAbout};
+    private int[] ids = {R.id.soundbluebutton2, R.id.soundbluebutton,R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10,R.id.button1,R.id.button2,R.id.button3,R.id.headingAbout};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +37,23 @@ public class SoundActivity extends Activity {
         mediaPlayer = MediaPlayer.create(this, R.raw.splashscreenbg);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
+        Switch soundToggle = findViewById(R.id.sound_toggle);
+        BackgroundMusicService backgroundMusicService = new BackgroundMusicService();
+
+        soundToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is ON
+                    // Start or resume music playback
+                    startOrResumeMusic();
+                } else {
+                    // The toggle is OFF
+                    // Stop music playback
+                    stopMusic();
+                }
+            }
+        });
 
 
         backbutton.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +71,35 @@ public class SoundActivity extends Activity {
             }
         });
 
+    }
+    // Method to start or resume music playback
+    private void startOrResumeMusic() {
+        // Check if mediaPlayer is already playing
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            // If not playing, start or resume music
+            mediaPlayer.start();
+        } else {
+            // If mediaPlayer is null or already playing, play music from a specific resource
+            playMusic(R.raw.splashscreenbg); // replace with your actual music resource
+        }
+    }
+
+    private void playMusic(int splashscreenbg) {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.splashscreenbg);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+    }
+
+    // Method to stop the music playback
+    private void stopMusic() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause(); // Pause instead of stop to allow resuming later
+        }
     }
     private void showMusicMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(this, view);

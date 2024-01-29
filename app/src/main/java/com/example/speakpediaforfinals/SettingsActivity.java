@@ -15,6 +15,7 @@ public class SettingsActivity extends Activity {
 
     private TextView Theme;
     private TextView Sounds;
+    private BackgroundMusicService musicService;
     private int[] ids = {R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10,R.id.themebluebutton,R.id.aboutusbluebutton};
 
 
@@ -53,6 +54,8 @@ public class SettingsActivity extends Activity {
              public void onClick(View view) {
                  Intent Sound = new Intent(SettingsActivity.this, SoundActivity.class );
                  startActivity(Sound);
+                 // Call the stopMusic method in the service
+                 musicService.stopMusic();
              }
          });
     }

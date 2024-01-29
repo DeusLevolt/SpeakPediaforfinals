@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class GameActivity extends AppCompatActivity {
 
     private int[] ids = {R.id.blue_quiz ,R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10, R.id.blue1, R.id.blue2};
-
+    private MediaPlayer click;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +31,7 @@ public class GameActivity extends AppCompatActivity {
         ImageView back = findViewById(R.id.back_button_game);
         TextView quiz_game = findViewById(R.id.quiz_game);
         ImageView help = findViewById(R.id.gamehelpbutton);
+        click = MediaPlayer.create(this, R.raw.click);
         loadSavedColor();
 
         help.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +46,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent game_two = new Intent(GameActivity.this, GameTwoActivity.class);
                 startActivity(game_two);
+                playButtonClickSound();
             }
         });
         Tts.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +54,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent tts = new Intent(GameActivity.this, Text_to_speech.class);
                 startActivity(tts);
+                playButtonClickSound();
             }
         });
 
@@ -67,8 +71,22 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent jumbled_words = new Intent(GameActivity.this, MainGameActivity.class);
                 startActivity(jumbled_words);
+                playButtonClickSound();
             }
         });
+    }
+    private void playButtonClickSound() {
+        if (click != null) {
+            click.start();
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        // Release MediaPlayer resources when the activity is destroyed
+        if (click != null) {
+            click.release();
+        }
+        super.onDestroy();
     }
 
     private void showHelpDialog() {

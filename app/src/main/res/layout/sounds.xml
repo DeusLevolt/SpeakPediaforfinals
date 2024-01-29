@@ -52,13 +52,13 @@
             android:layout_width="300dp"
             android:layout_height="100dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="200dp" />
+            android:layout_marginTop="150dp" />
 
         <ImageView
             android:layout_width="280dp"
             android:layout_height="80dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="210dp"
+            android:layout_marginTop="160dp"
             android:src="@drawable/white_bg" />
 
         <ImageView
@@ -66,7 +66,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="225dp"
-            android:layout_marginTop="220dp"
+            android:layout_marginTop="170dp"
             android:src="@drawable/down_arrow" />
 
         <TextView
@@ -74,13 +74,49 @@
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="220dp"
+            android:layout_marginTop="170dp"
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="@font/baloo"
             android:text="Music"
             android:textColor="@color/black"
             android:textSize="40sp" />
+
+        <ImageView
+            android:id="@+id/soundbluebutton2"
+            style="@style/SharedImageViewStyle"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="320dp" />
+
+        <ImageView
+            android:layout_width="280dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="330dp"
+            android:src="@drawable/white_bg" />
+
+
+        <TextView
+            android:id="@+id/switch1"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="340dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/baloo"
+            android:text="Off/On"
+            android:textColor="@color/black"
+            android:textSize="40sp" />
+
+        <Switch
+            android:id="@+id/sound_toggle"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="340dp"
+            android:layout_marginStart="220dp"/>
 
     </RelativeLayout>
 

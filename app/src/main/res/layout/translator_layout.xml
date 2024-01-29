@@ -97,12 +97,6 @@
             android:textColor="@color/black"
             android:textSize="35sp" />
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="140dp"
-            android:layout_marginTop="260dp"
-            android:background="@drawable/baseline_arrow_downward_24" />
 
         <TextView
             android:id="@+id/translate_textView"

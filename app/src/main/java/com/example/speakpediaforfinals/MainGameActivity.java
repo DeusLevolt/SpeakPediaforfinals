@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,6 +50,8 @@ public class MainGameActivity extends AppCompatActivity {
 
     private int currentQuestionIndex = 0;
     private boolean isGameOver = false;
+    private MediaPlayer correctAnswerMediaPlayer;
+    private MediaPlayer wrong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,8 @@ public class MainGameActivity extends AppCompatActivity {
         ImageButton deleteButton = findViewById(R.id.imageButtondel);
         ImageButton shuffleButton = findViewById(R.id.shuffle_button);
         ImageView help = findViewById(R.id.helpbuttongame1);
+        correctAnswerMediaPlayer = MediaPlayer.create(this, R.raw.complete);
+        wrong = MediaPlayer.create(this, R.raw.wrong);
         loadSavedColor();
         
         help.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +198,7 @@ public class MainGameActivity extends AppCompatActivity {
         String userAnswer = jumbledWordTextView.getText().toString().trim();
         if (!userAnswer.isEmpty() && userAnswer.equalsIgnoreCase(getOriginalWord(correctWord))) {
             Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+            playCorrectAnswerSound();
             updateScore();
             jumbledWordTextView.setText("");  // Clear the text after a correct answer
             //call updatescore when the answer is correct
@@ -210,6 +216,7 @@ public class MainGameActivity extends AppCompatActivity {
             }
         } else {
             Toast.makeText(this, "Incorrect. Try again!", Toast.LENGTH_SHORT).show();
+            playWrongAnswerSound();
         }
 
         // Call the new method to display the original word
@@ -217,6 +224,16 @@ public class MainGameActivity extends AppCompatActivity {
 
         if (isGameOver){
            saveToLeaderboard("quited_user", score);
+        }
+    }
+    private void playCorrectAnswerSound() {
+        if (correctAnswerMediaPlayer != null) {
+            correctAnswerMediaPlayer.start();
+        }
+    }
+    private  void playWrongAnswerSound(){
+        if(wrong != null){
+            wrong.start();
         }
     }
 

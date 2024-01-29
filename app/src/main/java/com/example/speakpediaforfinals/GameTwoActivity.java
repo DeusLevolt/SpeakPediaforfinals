@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.speech.RecognitionListener;
@@ -45,6 +46,8 @@ public class GameTwoActivity extends AppCompatActivity {
     private ImageView micIcon;
     private Animation pulsating;
     public TextView scoreBoard;
+    private MediaPlayer correctAnswerMediaPlayer;
+    private MediaPlayer wrong;
 
 
     @Override
@@ -61,6 +64,7 @@ public class GameTwoActivity extends AppCompatActivity {
         gameTwoTextView = findViewById(R.id.game_two_textview);
         ImageView speakQuizInfo = findViewById(R.id.speakQuiz_info);
         scoreBoard = findViewById(R.id.scoreBoard);
+        correctAnswerMediaPlayer = MediaPlayer.create(this, R.raw.complete);
         startTimer();
         loadSavedColor();
         saveSelectedColor();
@@ -172,6 +176,7 @@ public class GameTwoActivity extends AppCompatActivity {
                 if (userAnswer.equalsIgnoreCase(correctAnswer)) {
                     // Correct answer handling, update score or perform other actions
                     showToast("Correct!");
+                    playCorrectAnswerSound();
 
                     // Assign points for the correct answer (customize as needed)
                     int pointsForCorrectAnswer = calculatePointsForCurrentQuestion();
@@ -182,6 +187,7 @@ public class GameTwoActivity extends AppCompatActivity {
                 } else {
                     // Incorrect answer handling, if needed
                     showToast("Incorrect. The correct answer is: " + correctAnswer);
+                    playWrong();
                 }
 
                 // Move to the next question
@@ -191,8 +197,17 @@ public class GameTwoActivity extends AppCompatActivity {
                 // Update the scoreboard with the total score
                 updateScoreDisplay();
             }
-
-
+            // Method to play the sound for correct answer
+            private void playCorrectAnswerSound() {
+                if (correctAnswerMediaPlayer != null) {
+                    correctAnswerMediaPlayer.start();
+                }
+            }
+            private void playWrong(){
+                if(wrong != null){
+                    wrong.start();
+                }
+            }
 
             private int calculatePointsForCurrentQuestion() {
                 // Retrieve the current question

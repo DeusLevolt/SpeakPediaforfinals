@@ -45,4 +45,14 @@ public class BackgroundMusicService extends Service {
         mediaPlayer.start();
     }
 
+    // Method to stop the music playback
+    public void stopMusic() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
 }
