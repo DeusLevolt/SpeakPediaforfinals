@@ -10,5 +10,5 @@
         android:title="Yellow" />
     <item
         android:id="@+id/color_blue"
-        android:title="blue"/>
+        android:title="Blue"/>
 </menu>

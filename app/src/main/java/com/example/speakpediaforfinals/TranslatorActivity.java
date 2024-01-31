@@ -11,10 +11,15 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -61,6 +66,7 @@ public class TranslatorActivity extends AppCompatActivity {
 
         languageSpinner = findViewById(R.id.language1_spinner);
         dialectSpinner = findViewById(R.id.language2_spinner);
+        ImageView helpButton = findViewById(R.id.help_button_translate);
 
         initializeViews();
         setupRetrofit();
@@ -69,6 +75,33 @@ public class TranslatorActivity extends AppCompatActivity {
         setupDialectSpinner();
         loadSavedColor();
         saveSelectedColor();
+
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create a new instance of PopupWindow
+                PopupWindow popupWindow = new PopupWindow(TranslatorActivity.this);
+
+                // Set the layout parameters for the PopupWindow
+                popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                popupWindow.setFocusable(true);
+
+                // Inflate the layout for the PopupWindow
+                View popupView = LayoutInflater.from(TranslatorActivity.this).inflate(R.layout.popup_layout, null);
+
+                // Set the image resource for the ImageView in the popup layout
+                ImageView imageView = popupView.findViewById(R.id.popupImageView);
+                imageView.setImageResource(R.drawable.help_translator);
+
+                // Set the content view of the PopupWindow
+                popupWindow.setContentView(popupView);
+
+                // Show the PopupWindow at the center of the screen
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+            }
+        });
+
 
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -107,7 +140,7 @@ public class TranslatorActivity extends AppCompatActivity {
 
     private void setupLanguageSpinner() {
         // Define your language choices
-        String[] languages = {"English", "Tagalog"};
+        String[] languages = {"English", "Tagalog","Cebuano", "Hiligaynon", "Ilokano", "Kapampangan", "Chavacano"};
 
         // Create an ArrayAdapter using a simple spinner layout and your choices
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, languages);
@@ -121,7 +154,7 @@ public class TranslatorActivity extends AppCompatActivity {
 
     private void setupDialectSpinner() {
         // Define your dialect choices
-        String[] dialects = {"Cebuano", "Hiligaynon", "Ilokano", "Kapampangan", "Chavacano"};
+        String[] dialects = {"Cebuano", "Hiligaynon", "Ilokano", "Kapampangan", "Chavacano","English", "Tagalog"};
 
         // Create an ArrayAdapter using a simple spinner layout and your choices
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dialects);
@@ -205,7 +238,7 @@ public class TranslatorActivity extends AppCompatActivity {
 
     private void translateInBackground(String inputText) {
         CompletableFuture.supplyAsync(() -> {
-            String apiKey = "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"; // Replace with your actual API key
+            String apiKey = "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"; // Replace with your actual API key
             String prompt = "Translate the following " + selectedLanguage + " text to " + selectedDialect + ": '" + inputText + "'";
             String jsonInput = "{\"prompt\": \"" + prompt + "\", \"max_tokens\": 50, \"temperature\": 0.7}";
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");

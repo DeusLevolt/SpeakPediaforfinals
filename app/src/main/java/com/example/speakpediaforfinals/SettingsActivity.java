@@ -15,7 +15,6 @@ public class SettingsActivity extends Activity {
 
     private TextView Theme;
     private TextView Sounds;
-    private BackgroundMusicService musicService;
     private int[] ids = {R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10,R.id.themebluebutton,R.id.aboutusbluebutton};
 
 
@@ -27,8 +26,6 @@ public class SettingsActivity extends Activity {
          Theme = findViewById(R.id.theme);
          Sounds = findViewById(R.id.sounds);
         ImageView back = findViewById(R.id.back_button_settings);
-        ImageView top = findViewById(R.id.shared_background_7);
-        ImageView bot = findViewById(R.id.shared_background_8);
         loadSavedColor();
         saveSelectedColor();
 
@@ -52,10 +49,11 @@ public class SettingsActivity extends Activity {
          Sounds.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
+
+                SoundActivity.stopAndReleaseMusic();
+
                  Intent Sound = new Intent(SettingsActivity.this, SoundActivity.class );
                  startActivity(Sound);
-                 // Call the stopMusic method in the service
-                 musicService.stopMusic();
              }
          });
     }

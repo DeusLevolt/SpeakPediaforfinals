@@ -42,6 +42,14 @@
         style="@style/SharedImageViewStyle"
         android:layout_marginTop="75dp">
 
+        <ImageView
+            android:id="@+id/help_button_translate"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="290dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/helpbutton"/>
+
         <TextView
             android:id="@+id/language"
             android:layout_width="wrap_content"

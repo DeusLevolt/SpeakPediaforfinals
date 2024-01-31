@@ -30,12 +30,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("YourActivity", "onCreate: Start");
 
         // Start the background music service
         loadSavedColor();
         saveSelectedColor();
         // Initialize MediaPlayer for button click sound
-        buttonClickSound = MediaPlayer.create(this, R.raw.click);
+        buttonClickSound = MediaPlayer.create(this, R.raw.beep);
 
         // Check if Terms and Conditions have been accepted
         boolean termsAccepted = checkTermsAndConditions();
@@ -53,8 +54,10 @@ public class MainActivity extends AppCompatActivity {
             TextView translator = findViewById(R.id.heading2);
             TextView Settings = findViewById(R.id.heading4);
             TextView About = findViewById(R.id.aboutUs);
+
             loadSavedColor();
             saveSelectedColor();
+
 
             About.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -99,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+        Log.d("YourActivity", "onCreate: End");
     }
     private void playButtonClickSound() {
         if (buttonClickSound != null) {

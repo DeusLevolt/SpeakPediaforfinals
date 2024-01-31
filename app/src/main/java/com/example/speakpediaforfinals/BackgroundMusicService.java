@@ -4,10 +4,18 @@ package com.example.speakpediaforfinals;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Binder;
 import android.os.IBinder;
 
 public class BackgroundMusicService extends Service {
     private MediaPlayer mediaPlayer;
+    private final IBinder binder = new LocalBinder();
+
+    public class LocalBinder extends Binder {
+        BackgroundMusicService getService() {
+            return BackgroundMusicService.this;
+        }
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -22,9 +30,14 @@ public class BackgroundMusicService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.splashscreenbg);
+            mediaPlayer.setLooping(true);
+        }
         mediaPlayer.start();
         return START_STICKY;
     }
+
 
     @Override
     public void onDestroy() {
@@ -48,10 +61,7 @@ public class BackgroundMusicService extends Service {
     // Method to stop the music playback
     public void stopMusic() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            mediaPlayer.release();
-            mediaPlayer = null;
+            mediaPlayer.pause();
         }
     }
 

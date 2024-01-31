@@ -31,7 +31,7 @@ public class GameActivity extends AppCompatActivity {
         ImageView back = findViewById(R.id.back_button_game);
         TextView quiz_game = findViewById(R.id.quiz_game);
         ImageView help = findViewById(R.id.gamehelpbutton);
-        click = MediaPlayer.create(this, R.raw.click);
+        click = MediaPlayer.create(this, R.raw.beep);
         loadSavedColor();
 
         help.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +46,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent game_two = new Intent(GameActivity.this, GameTwoActivity.class);
                 startActivity(game_two);
-                playButtonClickSound();
+
             }
         });
         Tts.setOnClickListener(new View.OnClickListener() {

@@ -57,6 +57,13 @@
             style="@style/SharedImageViewStyle"
             android:layout_marginTop="-5dp"/>
 
+        <ImageView
+            android:id="@+id/speakQuizLeaderboard"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="150dp"
+            android:src="@drawable/leaderboard"/>
+
         <TextView
             android:id="@+id/timerTextView"
             android:layout_width="100dp"
@@ -127,8 +134,8 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:visibility="invisible"
-                android:src="@drawable/volume"/>
+                android:src="@drawable/volume"
+                android:visibility="invisible" />
         </FrameLayout>
 
     </RelativeLayout>

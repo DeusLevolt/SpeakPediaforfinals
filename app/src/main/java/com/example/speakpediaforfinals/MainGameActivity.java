@@ -1,17 +1,20 @@
 package com.example.speakpediaforfinals;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,14 +77,41 @@ public class MainGameActivity extends AppCompatActivity {
         ImageButton deleteButton = findViewById(R.id.imageButtondel);
         ImageButton shuffleButton = findViewById(R.id.shuffle_button);
         ImageView help = findViewById(R.id.helpbuttongame1);
-        correctAnswerMediaPlayer = MediaPlayer.create(this, R.raw.complete);
+        try {
+            correctAnswerMediaPlayer = MediaPlayer.create(this, R.raw.correct);
+            if (correctAnswerMediaPlayer == null) {
+                Log.e("MediaPlayerError", "MediaPlayer creation failed for R.raw.complete");
+            }
+        } catch (Exception e) {
+            Log.e("MediaPlayerError", "Error creating correctAnswerMediaPlayer: " + e.getMessage());
+        }
+
         wrong = MediaPlayer.create(this, R.raw.wrong);
         loadSavedColor();
         
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showInfoDialog();
+                // Create a new instance of PopupWindow
+                PopupWindow popupWindow = new PopupWindow(MainGameActivity.this);
+
+                // Set the layout parameters for the PopupWindow
+                popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                popupWindow.setFocusable(true);
+
+                // Inflate the layout for the PopupWindow
+                View popupView = LayoutInflater.from(MainGameActivity.this).inflate(R.layout.game_popup, null);
+
+                // Set the image resource for the ImageView in the popup layout
+                ImageView imageView = popupView.findViewById(R.id.popupImageView);
+                imageView.setImageResource(R.drawable.helpgame);
+
+                // Set the content view of the PopupWindow
+                popupWindow.setContentView(popupView);
+
+                // Show the PopupWindow at the center of the screen
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
             }
         });
 
@@ -133,20 +163,6 @@ public class MainGameActivity extends AppCompatActivity {
         } else {
             startGame(); // Initialize a new game if no saved instance state.
         }
-    }
-
-    private void showInfoDialog() {
-        // Create a custom dialog
-        final Dialog infoDialog = new Dialog(this);
-        infoDialog.setContentView(R.layout.custom_info_dialog); // Create a layout file for your custom dialog
-
-        // Customize your dialog's UI components
-        TextView dialogText = infoDialog.findViewById(R.id.dialog_text);
-        // Set the text you want to display in the dialog
-        dialogText.setText("You will guess and arrange the jumbled letters to guess the answer of the given definition. ");
-
-        // Show the dialog
-        infoDialog.show();
     }
 
     private boolean startGame() {
@@ -228,9 +244,16 @@ public class MainGameActivity extends AppCompatActivity {
     }
     private void playCorrectAnswerSound() {
         if (correctAnswerMediaPlayer != null) {
-            correctAnswerMediaPlayer.start();
+            try {
+                correctAnswerMediaPlayer.start();
+            } catch (Exception e) {
+                Log.e("MediaPlayerError", "Error playing correct sound: " + e.getMessage());
+            }
+        } else {
+            Log.e("MediaPlayerError", "CorrectAnswerMediaPlayer is null");
         }
     }
+
     private  void playWrongAnswerSound(){
         if(wrong != null){
             wrong.start();
@@ -538,12 +561,6 @@ public class MainGameActivity extends AppCompatActivity {
             }
         });
         builder.show();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        showQuitConfirmationDialog();
     }
 
 }

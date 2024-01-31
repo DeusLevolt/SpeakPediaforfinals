@@ -14,11 +14,17 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +54,8 @@ public class GameTwoActivity extends AppCompatActivity {
     public TextView scoreBoard;
     private MediaPlayer correctAnswerMediaPlayer;
     private MediaPlayer wrong;
+    private SpeakQuizLeaderboardManager leaderboardManager;
+    private boolean gameCompleted = false;
 
 
     @Override
@@ -65,22 +73,59 @@ public class GameTwoActivity extends AppCompatActivity {
         ImageView speakQuizInfo = findViewById(R.id.speakQuiz_info);
         scoreBoard = findViewById(R.id.scoreBoard);
         correctAnswerMediaPlayer = MediaPlayer.create(this, R.raw.complete);
+        ImageView leaderboard = findViewById(R.id.speakQuizLeaderboard);
+        // Initialize SpeakQuizLeaderboardManager
+        leaderboardManager = SpeakQuizLeaderboardManager.getInstance();
         startTimer();
         loadSavedColor();
         saveSelectedColor();
 
+
+        leaderboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent showleaderboard = new Intent(GameTwoActivity.this, SpeakQuizLeaderboard.class);
+                startActivity(showleaderboard);
+            }
+        });
+
         speakQuizInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showInfoDialog();
+                // Create a new instance of PopupWindow
+                PopupWindow popupWindow = new PopupWindow(GameTwoActivity.this);
+
+                // Set the layout parameters for the PopupWindow
+                popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                popupWindow.setFocusable(true);
+
+                // Inflate the layout for the PopupWindow
+                View popupView = LayoutInflater.from(GameTwoActivity.this).inflate(R.layout.game_two_popup, null);
+
+                // Set the image resource for the ImageView in the popup layout
+                ImageView imageView = popupView.findViewById(R.id.ImageViewPopup);
+                imageView.setImageResource(R.drawable.speakquizhelp);
+
+                // Set the content view of the PopupWindow
+                popupWindow.setContentView(popupView);
+
+                // Show the PopupWindow at the center of the screen
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
             }
         });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent back_to_game_act = new Intent(GameTwoActivity.this, GameActivity.class);
-                startActivity(back_to_game_act);
+                if (!gameCompleted) {
+                    // Show the username input dialog only if the game is not completed
+                    showUsernameInputDialog();
+                } else {
+                    // Proceed to the next activity (GameActivity) without showing the dialog
+                    Intent back_to_game_act = new Intent(GameTwoActivity.this, GameActivity.class);
+                    startActivity(back_to_game_act);
+                }
             }
         });
         // Initialize questions and correctAnswers as pairs
@@ -126,6 +171,10 @@ public class GameTwoActivity extends AppCompatActivity {
                 Log.d("SpeechRecognition", "Ready for speech");
                 micIcon.setVisibility(View.VISIBLE);
                 micIcon.startAnimation(pulsating);
+                // Disable the mic button during recognition
+                speakButton.setEnabled(false);
+                // Stop the timer when speech recognition starts
+                stopTimer();
             }
 
             @Override
@@ -152,6 +201,8 @@ public class GameTwoActivity extends AppCompatActivity {
                 Log.d("SpeechRecognition", "End of speech");
                 micIcon.clearAnimation();
                 micIcon.setVisibility(View.INVISIBLE);
+                speakButton.setEnabled(true);
+                startTimer();
             }
 
             @Override
@@ -273,12 +324,19 @@ public class GameTwoActivity extends AppCompatActivity {
                 // Handle speech recognition error
                 micIcon.clearAnimation();
                 micIcon.setVisibility(View.INVISIBLE);
+                // Enable the mic button after recognition error
+                speakButton.setEnabled(true);
+
+                // Restart the timer after speech recognition error
+                startTimer();
             }
         });
 
         speakButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Disable the button to prevent multiple clicks
+                speakButton.setEnabled(false);
                 // Start speech recognition
                 startSpeechRecognition();
             }
@@ -287,29 +345,16 @@ public class GameTwoActivity extends AppCompatActivity {
         // Display the first question
         displayNextQuestion();
     }
+    private void stopTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel(); // Stop the timer
+        }
+    }
 
     private void updateScoreDisplay() {
         // Update the TextView with the current score
         Log.d("ScoreUpdate", "Updated Score: " + score);
         scoreBoard.setText("Score: " + score);
-    }
-
-
-
-
-    private void showInfoDialog() {
-        // Create a custom dialog
-        final Dialog infoDialog = new Dialog(this);
-        infoDialog.setContentView(R.layout.custom_info_dialog); // Create a layout file for your custom dialog
-
-        // Customize your dialog's UI components
-        TextView dialogText = infoDialog.findViewById(R.id.dialog_text);
-        // Set the text you want to display in the dialog
-        dialogText.setText("Speak the answer to the mic of your phone with the help of the guide questions.");
-
-        // Show the dialog
-        infoDialog.show();
-
     }
 
     private void startTimer() {
@@ -360,8 +405,14 @@ public class GameTwoActivity extends AppCompatActivity {
         } else {
             // All questions have been displayed
             hintTextView.setText("All questions answered");
+            showUsernameInputDialog();
         }
         updateScoreDisplay();
+        resetGame();
+    }
+
+    private void resetGame() {
+        startTimer();
     }
 
 
@@ -392,23 +443,6 @@ public class GameTwoActivity extends AppCompatActivity {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
-    }
-
-    private void checkAnswer(String userAnswer) {
-        // Assuming currentQuestionIndex corresponds to the index of the current question
-        String correctAnswer = correctAnswers.get(currentQuestionIndex);
-
-        // Compare the user's answer with the correct answer
-        if (userAnswer.equalsIgnoreCase(correctAnswer)) {
-            // Correct answer handling, update score or perform other actions
-            showToast("Correct!");
-        } else {
-            // Incorrect answer handling, if needed
-            showToast("Incorrect. The correct answer is: " + correctAnswer);
-        }
-
-        // Move to the next question
-        displayNextQuestion();
     }
 
     private void showToast(String message) {
@@ -459,5 +493,57 @@ public class GameTwoActivity extends AppCompatActivity {
         editor.putInt("selected_color", selectedColor);
         editor.apply();
     }
+
+    private void showUsernameInputDialog() {
+        // Create a custom dialog
+        final Dialog usernameDialog = new Dialog(this);
+        usernameDialog.setContentView(R.layout.username_input_dialog); // Create a layout file for your custom dialog
+
+        // Customize your dialog's UI components
+        EditText usernameEditText = usernameDialog.findViewById(R.id.usernameEditText);
+        Button cancelButton = usernameDialog.findViewById(R.id.cancelButton);
+        Button submitButton = usernameDialog.findViewById(R.id.submitButton);
+
+        // Set click listeners for buttons
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                usernameDialog.dismiss(); // Dismiss the dialog on cancel
+            }
+        });
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Retrieve the entered username from the EditText
+                String enteredUsername = usernameEditText.getText().toString();
+                // Perform any actions with the entered username and score
+                saveUserScore(enteredUsername, score);
+
+                // Dismiss the dialog
+                usernameDialog.dismiss();
+                // Set the gameCompleted flag to true
+                gameCompleted = true;
+            }
+        });
+        // Show the dialog
+        usernameDialog.show();
+    }
+    private void saveUserScore(String username, int score) {
+        // Save user score to SpeakQuizLeaderboard
+        leaderboardManager.addUserScore(username, score);
+
+        // You can also update your UI to display the updated leaderboard
+        updateLeaderboardUI();
+    }
+
+    private void updateLeaderboardUI() {
+        // Update UI with the latest leaderboard data
+        // This might involve displaying the leaderboard in your app's UI
+        // using the data from leaderboardManager.getLeaderboard()
+    }
+
+    // ...
+
 
 }

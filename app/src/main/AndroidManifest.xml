@@ -13,7 +13,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/icon_speakpedia_finals"
-        android:label="speakpediaforfinals"
+        android:label="@string/app_name"
         android:roundIcon="@drawable/icon_speakpedia_finals"
         android:supportsRtl="true"
         android:theme="@style/Theme.SpeakPediaforFinals"
@@ -43,6 +43,7 @@
         <activity android:name=".LeaderboardActivity" />
         <activity android:name=".SoundActivity"/>
         <activity android:name=".TermsAndConditionsActivity"/>
+        <activity android:name=".SpeakQuizLeaderboard"/>
         <!-- Other activities and components can be declared here -->
 
         <service android:name=".BackgroundMusicService" />

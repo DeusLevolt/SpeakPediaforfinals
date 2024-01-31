@@ -115,9 +115,12 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/Brown"
-            android:padding="0dp"
             android:text="Enter"
-            android:textSize="29sp" />
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="29sp"
+            android:padding="0dp"/>
+
 
         <ImageButton
             android:id="@+id/imageButtondel"

@@ -15,16 +15,19 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 public class SoundActivity extends Activity {
 
-    private MediaPlayer mediaPlayer;
+    private static MediaPlayer mediaPlayer;
 
 
     private int[] ids = {R.id.soundbluebutton2, R.id.soundbluebutton,R.id.shared_background_1, R.id.shared_background_2, R.id.shared_background_3, R.id.shared_background_4, R.id.shared_background_5, R.id.shared_background_6, R.id.shared_background_7, R.id.shared_background_8, R.id.shared_background_9, R.id.shared_background_10,R.id.button1,R.id.button2,R.id.button3,R.id.headingAbout};
 
+    private BackgroundMusicService backgroundMusicService;
+    private boolean isBound = false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +37,8 @@ public class SoundActivity extends Activity {
         TextView musicTextView = findViewById(R.id.music);
         loadSavedColor();
         saveSelectedColor();
-        mediaPlayer = MediaPlayer.create(this, R.raw.splashscreenbg);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
         Switch soundToggle = findViewById(R.id.sound_toggle);
-        BackgroundMusicService backgroundMusicService = new BackgroundMusicService();
+
 
         soundToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -72,36 +72,37 @@ public class SoundActivity extends Activity {
         });
 
     }
+
+
     // Method to start or resume music playback
     private void startOrResumeMusic() {
-        // Check if mediaPlayer is already playing
-        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-            // If not playing, start or resume music
-            mediaPlayer.start();
-        } else {
-            // If mediaPlayer is null or already playing, play music from a specific resource
-            playMusic(R.raw.splashscreenbg); // replace with your actual music resource
-        }
-    }
+        // Stop and release existing MediaPlayer if it's playing
+        stopAndReleaseMusic();
 
-    private void playMusic(int splashscreenbg) {
+        // Check if MediaPlayer creation was successful
         if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+            mediaPlayer.setLooping(true);
+            mediaPlayer.start();
         }
-
-        mediaPlayer = MediaPlayer.create(this, R.raw.splashscreenbg);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
     }
+
 
     // Method to stop the music playback
     private void stopMusic() {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.pause(); // Pause instead of stop to allow resuming later
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
+
     private void showMusicMenu(View view) {
+        Switch soundToggle = findViewById(R.id.sound_toggle);
+
+        if (!soundToggle.isChecked()){
+            Toast.makeText(this, "Please enable sound to pick a music.",Toast.LENGTH_SHORT).show();
+            return;
+        }
         PopupMenu popupMenu = new PopupMenu(this, view);
         popupMenu.getMenuInflater().inflate(R.menu.music_menu, popupMenu.getMenu());
 
@@ -180,13 +181,8 @@ public class SoundActivity extends Activity {
         editor.apply();
     }
     private void changeBackgroundMusic(int resourceId) {
-        // Release the existing MediaPlayer
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
 
+        stopAndReleaseMusic();
         // Create and start a new MediaPlayer with the specified resource
         mediaPlayer = MediaPlayer.create(this, resourceId);
 
@@ -194,6 +190,20 @@ public class SoundActivity extends Activity {
         if (mediaPlayer != null) {
             mediaPlayer.setLooping(true);
             mediaPlayer.start();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopAndReleaseMusic();
+    }
+
+    protected static void stopAndReleaseMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 
