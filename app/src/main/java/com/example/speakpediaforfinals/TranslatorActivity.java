@@ -238,7 +238,7 @@ public class TranslatorActivity extends AppCompatActivity {
 
     private void translateInBackground(String inputText) {
         CompletableFuture.supplyAsync(() -> {
-            String apiKey = "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"; // Replace with your actual API key
+            String apiKey = "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"; // Replace with your actual API key
             String prompt = "Translate the following " + selectedLanguage + " text to " + selectedDialect + ": '" + inputText + "'";
             String jsonInput = "{\"prompt\": \"" + prompt + "\", \"max_tokens\": 50, \"temperature\": 0.7}";
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
