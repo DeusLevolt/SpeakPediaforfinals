@@ -61,7 +61,7 @@ public class Text_to_speech extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent back_to_game = new Intent(Text_to_speech.this, GameActivity.class);
+                Intent back_to_game = new Intent(Text_to_speech.this, MainActivity.class);
                 startActivity(back_to_game);
             }
         });

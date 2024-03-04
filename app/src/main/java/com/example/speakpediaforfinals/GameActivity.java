@@ -27,7 +27,6 @@ public class GameActivity extends AppCompatActivity {
 
 
         TextView Jumbled = findViewById(R.id.jumbled_word);
-        TextView Tts = findViewById(R.id.game_2);
         ImageView back = findViewById(R.id.back_button_game);
         TextView quiz_game = findViewById(R.id.quiz_game);
         ImageView help = findViewById(R.id.gamehelpbutton);
@@ -49,14 +48,7 @@ public class GameActivity extends AppCompatActivity {
 
             }
         });
-        Tts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent tts = new Intent(GameActivity.this, Text_to_speech.class);
-                startActivity(tts);
-                playButtonClickSound();
-            }
-        });
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("YourActivity", "onCreate: Start");
 
+
         // Start the background music service
         loadSavedColor();
         saveSelectedColor();
@@ -54,10 +55,20 @@ public class MainActivity extends AppCompatActivity {
             TextView translator = findViewById(R.id.heading2);
             TextView Settings = findViewById(R.id.heading4);
             TextView About = findViewById(R.id.aboutUs);
+            TextView Tts = findViewById(R.id.game_2);
 
             loadSavedColor();
             saveSelectedColor();
 
+
+            Tts.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent tts = new Intent(MainActivity.this, Text_to_speech.class);
+                    startActivity(tts);
+                    playButtonClickSound();
+                }
+            });
 
             About.setOnClickListener(new View.OnClickListener() {
                 @Override

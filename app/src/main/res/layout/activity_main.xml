@@ -29,7 +29,7 @@
 
     <RelativeLayout
         android:layout_width="320dp"
-        android:layout_height="600dp"
+        android:layout_height="670dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="80dp"
         android:background="@drawable/white_bg" />
@@ -39,13 +39,13 @@
             android:id="@+id/button1"
             style="@style/SharedImageViewStyle"
             android:layout_width="300dp"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             android:layout_marginStart="29dp"
             android:layout_marginTop="100dp" />
 
         <ImageView
             android:layout_width="280dp"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_marginStart="39dp"
             android:layout_marginTop="110dp"
             android:src="@drawable/white_bg" />
@@ -54,7 +54,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="250dp"
-            android:layout_marginTop="130dp"
+            android:layout_marginTop="120dp"
             android:src="@drawable/icon_language" />
 
         <TextView
@@ -63,7 +63,7 @@
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="130dp"
+            android:layout_marginTop="120dp"
             android:clickable="true"
             android:focusable="true"
             android:text="Translator" />
@@ -72,15 +72,15 @@
             android:id="@+id/button2"
             style="@style/SharedImageViewStyle"
             android:layout_width="300dp"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             android:layout_marginStart="29dp"
-            android:layout_marginTop="250dp" />
+            android:layout_marginTop="230dp" />
 
         <ImageView
             android:layout_width="280dp"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_marginStart="39dp"
-            android:layout_marginTop="260dp"
+            android:layout_marginTop="240dp"
             android:src="@drawable/white_bg" />
 
         <TextView
@@ -89,7 +89,7 @@
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="280dp"
+            android:layout_marginTop="250dp"
             android:clickable="true"
             android:focusable="true"
             android:text="Game" />
@@ -98,29 +98,29 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="250dp"
-            android:layout_marginTop="280dp"
+            android:layout_marginTop="250dp"
             android:src="@drawable/console" />
 
         <ImageView
             android:id="@+id/button3"
             style="@style/SharedImageViewStyle"
             android:layout_width="300dp"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             android:layout_marginStart="29dp"
-            android:layout_marginTop="400dp" />
+            android:layout_marginTop="360dp" />
 
         <ImageView
             android:layout_width="280dp"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_marginStart="39dp"
-            android:layout_marginTop="410dp"
+            android:layout_marginTop="370dp"
             android:src="@drawable/white_bg" />
 
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="250dp"
-            android:layout_marginTop="430dp"
+            android:layout_marginTop="380dp"
             android:src="@drawable/icon_settings" />
 
         <TextView
@@ -129,7 +129,7 @@
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="430dp"
+            android:layout_marginTop="380dp"
             android:clickable="true"
             android:focusable="true"
             android:text="Settings" />
@@ -137,23 +137,23 @@
     <ImageView
         android:id="@+id/headingAbout"
         android:layout_width="300dp"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         style="@style/SharedImageViewStyle"
         android:layout_marginStart="29dp"
-        android:layout_marginTop="550dp"/>
+        android:layout_marginTop="620dp"/>
 
     <ImageView
         android:layout_width="280dp"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:layout_marginStart="39dp"
-        android:layout_marginTop="560dp"
+        android:layout_marginTop="630dp"
         android:src="@drawable/white_bg"/>
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="250dp"
-        android:layout_marginTop="580dp"
+        android:layout_marginTop="640dp"
         android:src="@drawable/information"/>
 
     <TextView
@@ -161,11 +161,47 @@
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="580dp"
+        android:layout_marginTop="640dp"
         android:clickable="true"
         android:focusable="true"
         android:text="About Us"
         style="@style/FontsForAllHeading"/>
+
+    <ImageView
+        android:id="@+id/blue2"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="490dp"
+        style="@style/SharedImageViewStyle" />
+
+    <ImageView
+        android:layout_width="280dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="500dp"
+        android:src="@drawable/white_bg" />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginTop="510dp"
+        android:src="@drawable/icon_text_speech" />
+
+    <TextView
+        android:id="@+id/game_2"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="515dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/baloo"
+        android:text="Text to speech"
+        android:textColor="@color/black"
+        android:textSize="32sp" />
+
 
 
     </RelativeLayout>
